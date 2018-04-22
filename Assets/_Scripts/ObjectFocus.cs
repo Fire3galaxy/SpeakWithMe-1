@@ -20,7 +20,7 @@ public class ObjectFocus : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Touched this");
-        text.text = "Hi";
+        text.text = "蘋果 Píngguǒ";
         Debug.Log(other.gameObject.GetInstanceID());
         if (other.gameObject.GetInstanceID() == 13804)
             Debug.Log("me");
