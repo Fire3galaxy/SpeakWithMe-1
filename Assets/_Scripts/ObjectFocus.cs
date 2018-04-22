@@ -4,12 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ObjectFocus : MonoBehaviour {
-
-    public Text text;
+    public Dialogue dialogue;
 
 	// Use this for initialization
 	void Start () {
-		
+        dialogue = GetComponent<Dialogue>();
 	}
 	
 	// Update is called once per frame
@@ -20,9 +19,12 @@ public class ObjectFocus : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Touched this");
-        text.text = "蘋果 Píngguǒ";
         Debug.Log(other.gameObject.GetInstanceID());
-        if (other.gameObject.GetInstanceID() == 13804)
-            Debug.Log("me");
+        dialogue.StartDialogue();
+        Debug.Log("After this");
+    }
+
+    private void OnTriggerExit(Collider other) {
+        dialogue.HideDialogue();
     }
 }
