@@ -11,8 +11,9 @@ public interface MicReceiver {
 public class PlayerMic : MonoBehaviour {
     public string micName;
     public AudioClip recording;
-    
-    private bool isRecording = false;
+    public int maxDuration = 10;
+    public bool isRecording = false;
+
     private MicReceiver caller;
 
 	// Use this for initialization
@@ -37,14 +38,14 @@ public class PlayerMic : MonoBehaviour {
         caller = receiver;
 
         // 10 second recording
-        recording = Microphone.Start(micName, false, 10, 44100);
+        recording = Microphone.Start(micName, true, maxDuration, 44100);
     }
 
     // Stop recording manually if needed
     public void StopRecording() {
         Microphone.End(micName);
         isRecording = false;
-        caller = null;
         caller.onFinishedRecording();
+        caller = null;
     }
 }
