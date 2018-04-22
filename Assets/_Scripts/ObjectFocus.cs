@@ -10,6 +10,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
     public PlayerMic playerMic;
     public int scriptLine = 1;
     public AudioSource PlayerAudio;
+    public static bool PLAY_RECORDING = false;
 
     private bool waiting = false;
     private bool inTrigger = false;
@@ -103,6 +104,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
             if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.Remote) || Input.GetKeyDown("l"))
             {
                 PlayerAudio.clip = playerMic.recording;
+                PLAY_RECORDING = true;
                 PlayerAudio.Play();
             }
             else if (OVRInput.GetDown(OVRInput.Button.DpadRight, OVRInput.Controller.Remote) || Input.GetKeyDown(KeyCode.RightArrow))

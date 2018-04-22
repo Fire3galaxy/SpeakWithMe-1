@@ -14,6 +14,8 @@ public class PlayerMic : MonoBehaviour {
     public int maxDuration = 10;
     public bool isRecording = false;
 
+    public static bool RECORDING = false;
+
     private MicReceiver caller;
 
 	// Use this for initialization
@@ -27,6 +29,7 @@ public class PlayerMic : MonoBehaviour {
         if (isRecording) {
             if (!Microphone.IsRecording(micName)) {
                 isRecording = false;
+                RECORDING = false;
                 caller.onFinishedRecording();
                 caller = null;
             }
@@ -35,6 +38,7 @@ public class PlayerMic : MonoBehaviour {
     
     public void StartRecording(MicReceiver receiver) {
         isRecording = true;
+        RECORDING = true;
         caller = receiver;
 
         // 10 second recording
@@ -45,6 +49,7 @@ public class PlayerMic : MonoBehaviour {
     public void StopRecording() {
         Microphone.End(micName);
         isRecording = false;
+        RECORDING = false;
         caller.onFinishedRecording();
         caller = null;
     }

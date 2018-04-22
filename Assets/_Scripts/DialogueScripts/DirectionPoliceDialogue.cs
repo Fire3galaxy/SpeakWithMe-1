@@ -17,14 +17,10 @@ public class DirectionPoliceDialogue : Dialogue
             "How do I get to the Market? 怎麼去市場？(Tse Ma Chu Shih Chang)",
             "Go straight. 直走 (Chih Tsou)",
             "Turn to the left 左轉 (Tso Chuan)",
-            "Walk straight 直走 (Chih Tsou)",
-            "Turn right 右轉 (Yu Chuan)",
             "Turn left 左轉 (Tso Chuan)",
-            "Turn left. 左轉 (Tso Chuan)",
-            "Walk straight 直走 (Chih Tsou)",
-            "Take a right 右轉 (Yu Chuan)",
             "Thank you! 謝謝 (Hsieh Hsieh)",
-            "Goodbye! 再見 (Tsai Chien)"
+            "Goodbye! 再見 (Tsai Chien)",
+            "Now proceed to the market (walk to the market or click your heels three times to teleport!)"
         };
     }
 }

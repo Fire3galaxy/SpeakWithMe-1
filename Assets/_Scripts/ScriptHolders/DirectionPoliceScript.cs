@@ -30,21 +30,6 @@ public class DirectionPoliceScript : ScriptHolder {
             Dialogue,
             Player,
             Pause,
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause,
 
             Narrator,
 
@@ -55,7 +40,8 @@ public class DirectionPoliceScript : ScriptHolder {
             Player,
             Pause,
 
-            Narrator
+            Narrator,
+            Dialogue
         };
     }
 }
