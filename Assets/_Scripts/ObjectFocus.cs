@@ -98,20 +98,23 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
             }
         }
 
-        if (scriptHolder.script[scriptLine] == ScriptHolder.Pause)
+        if (scriptLine < scriptHolder.script.Length)
         {
-            Debug.Log("Inside Update Pause");
-            if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.Remote) || Input.GetKeyDown("l"))
+            if (scriptHolder.script[scriptLine] == ScriptHolder.Pause)
             {
-                PlayerAudio.clip = playerMic.recording;
-                PLAY_RECORDING = true;
-                PlayerAudio.Play();
-            }
-            else if (OVRInput.GetDown(OVRInput.Button.DpadRight, OVRInput.Controller.Remote) || Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                if (PlayerAudio.isPlaying)
-                    PlayerAudio.Stop();
-                nextScriptLine();
+                Debug.Log("Inside Update Pause");
+                if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.Remote) || Input.GetKeyDown("l"))
+                {
+                    PlayerAudio.clip = playerMic.recording;
+                    PLAY_RECORDING = true;
+                    PlayerAudio.Play();
+                }
+                else if (OVRInput.GetDown(OVRInput.Button.DpadRight, OVRInput.Controller.Remote) || Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    if (PlayerAudio.isPlaying)
+                        PlayerAudio.Stop();
+                    nextScriptLine();
+                }
             }
         }
     }
