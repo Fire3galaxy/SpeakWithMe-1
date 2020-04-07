@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Special narrator not tied to character
+// Intro Narrator script (bind to main player or object with audio source)
+// Plays on start of scene
 public class IntroductionNarrator : MonoBehaviour, MicReceiver {
     public AudioClip[] clips;
-    public AudioSource PlayerAudio;
     public GameObject IntroRecordingIcon;
 
+    private AudioSource PlayerAudio;
     int currClip = 0;
     bool playedOnce = false;
     bool playedPlayer8 = false;
@@ -16,7 +17,7 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
 
     // Use this for initialization
     void Start () {
-        PlayerAudio = GameObject.Find("/OVRPlayerController").GetComponent<AudioSource>();
+        PlayerAudio = GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame

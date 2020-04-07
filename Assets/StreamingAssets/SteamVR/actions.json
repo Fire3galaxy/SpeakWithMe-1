@@ -1,0 +1,42 @@
+{
+   "action_sets" : [
+      {
+         "name" : "/actions/DemoControls",
+         "usage" : "single"
+      }
+   ],
+   "actions" : [
+      {
+         "name" : "/actions/DemoControls/in/TrackingPoint",
+         "requirement" : "mandatory",
+         "type" : "pose"
+      },
+      {
+         "name" : "/actions/DemoControls/in/MoveForward",
+         "requirement" : "mandatory",
+         "type" : "boolean"
+      },
+      {
+         "name" : "/actions/DemoControls/in/MoveBackward",
+         "requirement" : "mandatory",
+         "type" : "boolean"
+      },
+      {
+         "name" : "/actions/DemoControls/in/ScootLeft",
+         "requirement" : "mandatory",
+         "type" : "boolean"
+      },
+      {
+         "name" : "/actions/DemoControls/in/ScootRight",
+         "requirement" : "mandatory",
+         "type" : "boolean"
+      }
+   ],
+   "default_bindings" : [
+      {
+         "binding_url" : "application_generated_unity_speakwithme_exe_binding_holographic_controller.json",
+         "controller_type" : "holographic_controller"
+      }
+   ],
+   "localization" : []
+}
