@@ -1,5 +1,5 @@
 # SpeakWithMe - The VR app that teaches Chinese!
-Back in 2018, I participated in UCR's CitrusHack with Rick, Xenia, and Karen and created this application. We won 2nd prize for our efforts.
+Back in April 21-22, 2018, I participated in UCR's CitrusHack with Rick, Xenia, and Karen and created this application. We won 2nd prize for our efforts.
 
 ## Overview
 I've posted a YouTube video here ([VR Apps: Showing off SpeakWithMe, a Chinese Teaching VR Hackathon App](https://www.youtube.com/watch?v=0Q91OFmDC08)) which shows the basics of the app. The app was originally designed for Oculus Rift, but I'm planning on converting its API calls to OpenVR (more on this below).
