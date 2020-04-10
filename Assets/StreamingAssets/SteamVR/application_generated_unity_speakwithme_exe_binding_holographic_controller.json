@@ -4,6 +4,8 @@
    "app_key" : "application.generated.unity.speakwithme.exe",
    "bindings" : {
       "/actions/democontrols" : {
+         "chords" : [],
+         "haptics" : [],
          "poses" : [
             {
                "output" : "/actions/democontrols/in/trackingpoint",
@@ -14,20 +16,21 @@
                "path" : "/user/hand/right/pose/raw"
             }
          ],
+         "skeleton" : [],
          "sources" : [
             {
                "inputs" : {
                   "east" : {
-                     "output" : "/actions/democontrols/in/scootright"
+                     "output" : "/actions/democontrols/in/rotateright"
                   },
                   "north" : {
                      "output" : "/actions/democontrols/in/moveforward"
                   },
                   "south" : {
-                     "output" : "/actions/democontrols/in/scootleft"
+                     "output" : "/actions/democontrols/in/movebackward"
                   },
                   "west" : {
-                     "output" : "/actions/democontrols/in/movebackward"
+                     "output" : "/actions/democontrols/in/rotateleft"
                   }
                },
                "mode" : "dpad",
@@ -39,16 +42,16 @@
             {
                "inputs" : {
                   "east" : {
-                     "output" : "/actions/democontrols/in/scootright"
+                     "output" : "/actions/democontrols/in/rotateright"
                   },
                   "north" : {
                      "output" : "/actions/democontrols/in/moveforward"
                   },
                   "south" : {
-                     "output" : "/actions/democontrols/in/scootleft"
+                     "output" : "/actions/democontrols/in/movebackward"
                   },
                   "west" : {
-                     "output" : "/actions/democontrols/in/movebackward"
+                     "output" : "/actions/democontrols/in/rotateleft"
                   }
                },
                "mode" : "dpad",
@@ -60,169 +63,17 @@
          ]
       },
       "/actions/legacy" : {
-         "haptics" : [
-            {
-               "output" : "/actions/legacy/out/left_haptic",
-               "path" : "/user/hand/left/output/haptic"
-            },
-            {
-               "output" : "/actions/legacy/out/right_haptic",
-               "path" : "/user/hand/right/output/haptic"
-            }
-         ],
-         "poses" : [
-            {
-               "output" : "/actions/legacy/in/Left_Pose",
-               "path" : "/user/hand/left/pose/raw"
-            },
-            {
-               "output" : "/actions/legacy/in/Right_Pose",
-               "path" : "/user/hand/right/pose/raw"
-            }
-         ],
-         "sources" : [
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/head_proximity"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/head/proximity"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/left_axis1_press"
-                  },
-                  "pull" : {
-                     "output" : "/actions/legacy/in/left_axis1_value"
-                  },
-                  "touch" : {
-                     "output" : "/actions/legacy/in/left_axis1_touch"
-                  }
-               },
-               "mode" : "trigger",
-               "path" : "/user/hand/left/input/trigger"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/right_grip_press"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/right/input/grip"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/left_grip_press"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/left/input/grip"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/left_applicationmenu_press"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/left/input/application_menu"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/right_applicationmenu_press"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/right/input/application_menu"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/left_axis0_press"
-                  },
-                  "position" : {
-                     "output" : "/actions/legacy/in/left_axis0_value"
-                  },
-                  "touch" : {
-                     "output" : "/actions/legacy/in/left_axis0_touch"
-                  }
-               },
-               "mode" : "trackpad",
-               "path" : "/user/hand/left/input/trackpad"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/left_axis2_press"
-                  },
-                  "position" : {
-                     "output" : "/actions/legacy/in/left_axis2_value2"
-                  },
-                  "touch" : {
-                     "output" : "/actions/legacy/in/left_axis2_touch"
-                  }
-               },
-               "mode" : "joystick",
-               "path" : "/user/hand/left/input/joystick"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/right_axis2_press"
-                  },
-                  "position" : {
-                     "output" : "/actions/legacy/in/right_axis2_value2"
-                  },
-                  "touch" : {
-                     "output" : "/actions/legacy/in/right_axis2_touch"
-                  }
-               },
-               "mode" : "joystick",
-               "path" : "/user/hand/right/input/joystick"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/right_axis0_press"
-                  },
-                  "position" : {
-                     "output" : "/actions/legacy/in/right_axis0_value"
-                  },
-                  "touch" : {
-                     "output" : "/actions/legacy/in/right_axis0_touch"
-                  }
-               },
-               "mode" : "trackpad",
-               "path" : "/user/hand/right/input/trackpad"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/legacy/in/right_axis1_press"
-                  },
-                  "pull" : {
-                     "output" : "/actions/legacy/in/right_axis1_value"
-                  },
-                  "touch" : {
-                     "output" : "/actions/legacy/in/right_axis1_touch"
-                  }
-               },
-               "mode" : "trigger",
-               "path" : "/user/hand/right/input/trigger"
-            }
-         ]
+         "chords" : [],
+         "haptics" : [],
+         "poses" : [],
+         "skeleton" : [],
+         "sources" : []
       }
    },
    "category" : "steamvr_input",
    "controller_type" : "holographic_controller",
    "description" : "Microsoft recommended legacy bindings",
-   "name" : "SpeakWithMe Default Controls for Windows Mixed Reality Controller",
+   "name" : "My SpeakWithMe [Testing] configuration for Windows Mixed Reality Controller",
    "options" : {},
    "simulated_actions" : []
 }

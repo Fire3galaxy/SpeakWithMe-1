@@ -9,13 +9,13 @@ public interface MicReceiver {
 
 // Stores the audio clip for a single object, starts/stops recording
 public class PlayerMic : MonoBehaviour {
-    public string micName;
     public AudioClip recording;
     public int maxDuration = 10;
     public bool isRecording = false;
 
     public static bool RECORDING = false;
 
+    private string micName;
     private MicReceiver caller;
 
 	// Use this for initialization

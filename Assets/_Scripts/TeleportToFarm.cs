@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// A script created for presentations. Speeds up the part where the
+// player is supposed to walk to the farm after meeting the police 
+// officer.
 public class TeleportToFarm : MonoBehaviour {
 
 	// Use this for initialization

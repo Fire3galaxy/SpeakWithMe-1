@@ -4,7 +4,8 @@ using UnityEngine;
 using Valve.VR;
 
 public class PlayerMove : MonoBehaviour {
-    public float speed = .002f;
+    public float movementSpeed = .002f;
+    public float rotationSpeed = 15f;
 
 	// Use this for initialization
 	void Start () {
@@ -24,11 +25,8 @@ public class PlayerMove : MonoBehaviour {
         }
     }
 
-    public void moveForward(SteamVR_Behaviour_Boolean fromBehaviour, 
-                            SteamVR_Input_Sources fromSource, 
-                            bool value)
+    public void moveForward()
     {
-        Debug.Log(fromBehaviour.booleanAction.GetPath());
         moveDirection(transform.forward);
     }
 
@@ -37,19 +35,20 @@ public class PlayerMove : MonoBehaviour {
         moveDirection(-transform.forward);
     }
 
-    public void moveLeft()
+    public void rotateLeft()
     {
-        moveDirection(-transform.right);
+        transform.Rotate(0f, -rotationSpeed, 0f);
     }
 
-    public void moveRight()
+    public void rotateRight()
     {
-        moveDirection(transform.right);
+        // Vector3 currRotation = transform.localEulerAngles;
+        transform.Rotate(0f, rotationSpeed, 0f);
     }
 
     // Expects a vector of magnitude 1
     private void moveDirection(Vector3 directionVector)
     {
-        transform.position += directionVector * speed;
+        transform.position += directionVector * movementSpeed;
     }
 }
