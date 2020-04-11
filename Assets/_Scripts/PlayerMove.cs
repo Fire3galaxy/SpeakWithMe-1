@@ -4,11 +4,22 @@ using UnityEngine;
 using Valve.VR;
 
 public class PlayerMove : MonoBehaviour {
-    public float movementSpeed = .002f;
+    public float ovrMovementSpeed = .002f;
+    public float steamVrMovementSpeed = .02f;
     public float rotationSpeed = 15f;
+
+    // Variables that considers all input methods
+    [HideInInspector]
+    public bool movingForward = false;
+    [HideInInspector]
+    public bool movingBackward = false;
+
+    private float joystickThreshold = .2f;
+    private Transform hmdTransform;
 
 	// Use this for initialization
 	void Start () {
+        hmdTransform = transform.Find("Camera");
 	}
 	
 	// Update is called once per frame
@@ -16,23 +27,43 @@ public class PlayerMove : MonoBehaviour {
         if (OVRInput.Get(OVRInput.Button.DpadDown, OVRInput.Controller.Remote) || 
             Input.GetKey(KeyCode.DownArrow))
         {
-            moveDirection(-transform.forward);
+            moveBackwards(false);
         }
         else if (OVRInput.Get(OVRInput.Button.DpadUp, OVRInput.Controller.Remote) || 
                  Input.GetKey(KeyCode.UpArrow))
         {
-            moveDirection(transform.forward);
+            moveForward(false);
         }
     }
 
-    public void moveForward()
+    // For SteamVR D-Pad controls
+    public void moveForward(SteamVR_Behaviour_Boolean fromBehaviour,
+                            SteamVR_Input_Sources fromSource,
+                            bool newValue)
     {
-        moveDirection(transform.forward);
+        if (newValue) moveForward(true);
+        movingForward = newValue;
     }
 
-    public void moveBackwards()
+    // Right now, only 2 options: steam or oculus/keyboard
+    private void moveForward(bool isSteam)
     {
-        moveDirection(-transform.forward);
+        transform.position += transform.forward * 
+                              (isSteam ?  steamVrMovementSpeed : ovrMovementSpeed);
+    }
+
+    public void moveBackwards(SteamVR_Behaviour_Boolean fromBehaviour, 
+                              SteamVR_Input_Sources fromSource, 
+                              bool newValue)
+    {
+        if (newValue) moveBackwards(true);
+        movingBackward = newValue;
+    }
+
+    private void moveBackwards(bool isSteam)
+    {
+        transform.position += -transform.forward * 
+                              (isSteam ? steamVrMovementSpeed : ovrMovementSpeed);
     }
 
     public void rotateLeft()
@@ -46,9 +77,43 @@ public class PlayerMove : MonoBehaviour {
         transform.Rotate(0f, rotationSpeed, 0f);
     }
 
-    // Expects a vector of magnitude 1
-    private void moveDirection(Vector3 directionVector)
+    // For joystick controls
+    public void handleAxisChange(SteamVR_Behaviour_Vector2 fromBehaviour, 
+                                 SteamVR_Input_Sources fromSource, 
+                                 Vector2 newAxis, 
+                                 Vector2 newDelta)
     {
-        transform.position += directionVector * movementSpeed;
+        // Threshold for moving
+        if (Mathf.Abs(newAxis.x) < joystickThreshold && Mathf.Abs(newAxis.y) < joystickThreshold)
+        {
+            movingBackward = false;
+            movingForward = false;
+            return;
+        }
+
+        // Set moving forward/backward flags
+        // Note: Threshold doesn't prevent y from being smaller than threshold. 
+        // X would exceed threshold in this case.
+        if (newAxis.y > 0f)
+        {
+            movingForward = true;
+            movingBackward = false;
+        } 
+        else if (newAxis.y < 0f)
+        {
+            movingForward = false;
+            movingBackward = true;
+        }
+
+        float playerYRotation = hmdTransform.eulerAngles.y * Mathf.Deg2Rad;
+        float cosRot = Mathf.Cos(playerYRotation);
+        float sinRot = Mathf.Sin(playerYRotation);
+
+        Vector3 positionDelta = new Vector3(
+                ovrMovementSpeed * (newAxis.x * cosRot + newAxis.y * sinRot),
+                0f,
+                ovrMovementSpeed * (-newAxis.x * sinRot + newAxis.y * cosRot)
+            );
+        transform.position += positionDelta;
     }
 }

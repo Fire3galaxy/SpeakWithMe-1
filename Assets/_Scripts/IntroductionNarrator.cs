@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
 
-// Intro Narrator script (bind to main player or object with audio source)
+// Intro Narrator script (bind to main player)
 // Plays on start of scene
 public class IntroductionNarrator : MonoBehaviour, MicReceiver {
     public AudioClip[] clips;
     public GameObject IntroRecordingIcon;
 
-    AudioSource PlayerAudio;
+    AudioSource playerAudio;
+    PlayerMove playerMover;
     int currClip = 0;
     bool startedPlaying = false;
     bool playedPlayer8 = false;
@@ -21,7 +22,9 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
     // Use this for initialization
     void Start () 
     {
-        PlayerAudio = GetComponent<AudioSource>();
+        playerAudio = GetComponent<AudioSource>();
+        playerMover = GetComponent<PlayerMove>();
+
         forwardAction = SteamVR_Actions.demoControls_MoveForward;
         backwardAction = SteamVR_Actions.demoControls_MoveBackward;
         rotateLeft = SteamVR_Actions.demoControls_RotateLeft;
@@ -45,8 +48,8 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
 
     private void playCurrClip()
     {
-        PlayerAudio.clip = clips[currClip];
-        PlayerAudio.Play();
+        playerAudio.clip = clips[currClip];
+        playerAudio.Play();
         startedPlaying = true;
     }
 
@@ -70,8 +73,8 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
 
     private void playRecording()
     {
-        PlayerAudio.clip = GetComponent<PlayerMic>().recording;
-        PlayerAudio.Play();
+        playerAudio.clip = GetComponent<PlayerMic>().recording;
+        playerAudio.Play();
     }
 	
     public void onFinishedRecording()
@@ -82,10 +85,11 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
 	// Update is called once per frame
 	void Update () 
     {
-        if (!PlayerAudio.isPlaying)
+        if (!playerAudio.isPlaying)
         {
             switch (currClip)
             {
+                // Just go to next clip once clip has played
                 case 0:
                 case 1:
                 case 9:
@@ -93,33 +97,24 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
                     break;
                 // Teaching moving forward
                 case 2:
-                    handleUpdate(OVRInput.Get(OVRInput.Button.DpadUp, OVRInput.Controller.Remote) || 
-                                    Input.GetKey(KeyCode.UpArrow) || 
-                                    forwardAction.state, 
-                                advanceClip);
+                    handleUpdate(playerMover.movingForward, advanceClip);
                     break;
                 // Teaching moving backwards
                 case 3:
-                    handleUpdate(OVRInput.Get(OVRInput.Button.DpadDown, OVRInput.Controller.Remote) || 
-                                    Input.GetKey(KeyCode.DownArrow) || 
-                                    backwardAction.state, 
+                    handleUpdate(playerMover.movingBackward, 
                                 advanceClip);
                     break;
+                // Teaching moving in arbitrary direction
                 case 4:
-                    handleUpdate(OVRInput.Get(OVRInput.Button.DpadDown | OVRInput.Button.DpadUp, 
-                                            OVRInput.Controller.Remote) || 
-                                    Input.GetKey(KeyCode.DownArrow) || 
-                                    Input.GetKey(KeyCode.UpArrow) || 
-                                    forwardAction.state || 
-                                    backwardAction.state, 
-                                advanceClip);
+                    handleUpdate(playerMover.movingBackward || playerMover.movingForward, 
+                                 advanceClip);
                     break;
                 // Getting first recording
                 case 5:
                     handleUpdate(OVRInput.Get(OVRInput.Button.One, OVRInput.Controller.Remote) || 
                                     Input.GetKey("space"), 
-                                startRecording,
-                                advanceClip);
+                                 startRecording,
+                                 advanceClip);
                     break;
                 // Waiting 3 seconds for recording
                 case 6:

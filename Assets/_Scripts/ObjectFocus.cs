@@ -4,16 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
-    public Dialogue dialogue;
-    public ScriptHolder scriptHolder;
-    public Narrator narrator;
-    public PlayerMic playerMic;
     public int scriptLine = 1;
-    public AudioSource PlayerAudio;
     public static bool PLAY_RECORDING = false;
 
-    private bool waiting = false;
-    private bool inTrigger = false;
+    Dialogue dialogue;
+    ScriptHolder scriptHolder;
+    Narrator narrator;
+    PlayerMic playerMic;
+    AudioSource PlayerAudio;
+    bool waiting = false;
+    bool inTrigger = false;
 
 	// Use this for initialization
 	void Start () {

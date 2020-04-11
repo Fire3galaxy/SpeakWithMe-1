@@ -56,5 +56,21 @@ namespace Valve.VR
                 return SteamVR_Actions.demoControls_RotateRight;
             }
         }
+        
+        public virtual SteamVR_Action_Vector2 Move
+        {
+            get
+            {
+                return SteamVR_Actions.demoControls_Move;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean Record
+        {
+            get
+            {
+                return SteamVR_Actions.demoControls_Record;
+            }
+        }
     }
 }

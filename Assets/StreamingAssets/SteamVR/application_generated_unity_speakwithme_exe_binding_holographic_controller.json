@@ -20,14 +20,26 @@
          "sources" : [
             {
                "inputs" : {
+                  "position" : {
+                     "output" : "/actions/democontrols/in/move"
+                  }
+               },
+               "mode" : "joystick",
+               "path" : "/user/hand/left/input/joystick"
+            },
+            {
+               "inputs" : {
+                  "position" : {
+                     "output" : "/actions/democontrols/in/move"
+                  }
+               },
+               "mode" : "joystick",
+               "path" : "/user/hand/right/input/joystick"
+            },
+            {
+               "inputs" : {
                   "east" : {
                      "output" : "/actions/democontrols/in/rotateright"
-                  },
-                  "north" : {
-                     "output" : "/actions/democontrols/in/moveforward"
-                  },
-                  "south" : {
-                     "output" : "/actions/democontrols/in/movebackward"
                   },
                   "west" : {
                      "output" : "/actions/democontrols/in/rotateleft"
@@ -43,12 +55,6 @@
                "inputs" : {
                   "east" : {
                      "output" : "/actions/democontrols/in/rotateright"
-                  },
-                  "north" : {
-                     "output" : "/actions/democontrols/in/moveforward"
-                  },
-                  "south" : {
-                     "output" : "/actions/democontrols/in/movebackward"
                   },
                   "west" : {
                      "output" : "/actions/democontrols/in/rotateleft"

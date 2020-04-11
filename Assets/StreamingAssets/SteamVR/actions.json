@@ -8,20 +8,30 @@
     {
       "name": "/actions/DemoControls/in/MoveForward",
       "type": "boolean",
-      "requirement": "mandatory"
+      "requirement": "suggested"
     },
     {
       "name": "/actions/DemoControls/in/MoveBackward",
       "type": "boolean",
-      "requirement": "mandatory"
+      "requirement": "suggested"
     },
     {
       "name": "/actions/DemoControls/in/RotateLeft",
       "type": "boolean",
-      "requirement": "mandatory"
+      "requirement": "suggested"
     },
     {
       "name": "/actions/DemoControls/in/RotateRight",
+      "type": "boolean",
+      "requirement": "suggested"
+    },
+    {
+      "name": "/actions/DemoControls/in/Move",
+      "type": "vector2",
+      "requirement": "suggested"
+    },
+    {
+      "name": "/actions/DemoControls/in/Record",
       "type": "boolean",
       "requirement": "mandatory"
     }
