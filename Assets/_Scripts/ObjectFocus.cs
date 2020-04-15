@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
-    public int scriptLine = 1;
+    int scriptLine = 0;
     public static bool PLAY_RECORDING = false;
 
     Dialogue dialogue;

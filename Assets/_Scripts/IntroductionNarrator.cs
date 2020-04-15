@@ -14,7 +14,6 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
     int currClip = 0;
     bool startedPlaying = false;
     bool playedPlayer8 = false;
-    bool finishedRecording = false;
     float timePassed = 0f;
     delegate void AdvanceFunction();
     SteamVR_Action_Boolean forwardAction, backwardAction, rotateLeft, rotateRight;
@@ -79,7 +78,6 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
 	
     public void onFinishedRecording()
     {
-        finishedRecording = true;
     }
 
 	// Update is called once per frame

@@ -9,9 +9,14 @@ public interface MicReceiver {
 
 // Stores the audio clip for a single object, starts/stops recording
 public class PlayerMic : MonoBehaviour {
+    public GameObject introRecordingIcon;
     public AudioClip recording;
     public int maxDuration = 10;
     public bool isRecording = false;
+
+    // "Powered on" concept: don't start recording unless mic is turned on
+    [HideInInspector]
+    public bool isPoweredOn = false;
 
     public static bool RECORDING = false;
 
@@ -25,6 +30,20 @@ public class PlayerMic : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        // Start recording (if desired)
+        // FIXME: MONDAY, continue refactoring PlayerMic so input is listened to solely from here.
+        if (isPoweredOn)
+        {
+            if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.Remote) ||
+                    Input.GetKeyDown("space"))
+            {
+                StartRecording();
+            }
+            if (!isRecording) {
+                
+            }
+        }
+
         // Let caller know recording is done.
         if (isRecording) {
             if (!Microphone.IsRecording(micName)) {
