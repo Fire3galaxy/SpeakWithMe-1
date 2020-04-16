@@ -113,11 +113,11 @@ public class IntroductionNarrator : MonoBehaviour {
                 case 8:
                     // Player's recording isn't in our array, so we treat it as a precondition
                     // to playing the next clip.
-                    if (!playedRecording)
+                    if (!playedRecording /* FIXME: AND player pressed play recording button */)
                     {
                         playRecording();
                         playedRecording = true;
-                    } 
+                    }
                     else 
                     {
                         handleUpdate(true, advanceClip);
