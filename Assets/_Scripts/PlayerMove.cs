@@ -10,9 +10,9 @@ public class PlayerMove : MonoBehaviour {
 
     // Variables that considers all input methods
     [HideInInspector]
-    public bool movingForward = false;
+    public bool movingForward {get; private set;} = false;
     [HideInInspector]
-    public bool movingBackward = false;
+    public bool movingBackward {get; private set;} = false;
 
     private float joystickThreshold = .2f;
     private Transform hmdTransform;

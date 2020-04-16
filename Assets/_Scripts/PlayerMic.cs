@@ -2,26 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// For the Player/Narrator to know when this recording is done
-public interface MicReceiver {
-    void onFinishedRecording();
-}
-
 // Stores the audio clip for a single object, starts/stops recording
+// Is not responsible for playing the audio clip, only recording it.
 public class PlayerMic : MonoBehaviour {
     public GameObject introRecordingIcon;
-    public AudioClip recording;
     public int maxDuration = 10;
-    public bool isRecording = false;
 
-    // "Powered on" concept: don't start recording unless mic is turned on
-    [HideInInspector]
-    public bool isPoweredOn = false;
+    public AudioClip recording {get; private set;}
+    public bool isRecording {
+        get {
+            return Microphone.IsRecording(micName);
+        }
+    }
 
-    public static bool RECORDING = false;
+    public bool recordButtonPressed {
+        get {
+            return OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.Remote) ||
+                   Input.GetKeyDown("space");
+        }
+    }
 
-    private string micName;
-    private MicReceiver caller;
+    string micName;
 
 	// Use this for initialization
 	void Start () {
@@ -30,46 +31,19 @@ public class PlayerMic : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        // Start recording (if desired)
-        // FIXME: MONDAY, continue refactoring PlayerMic so input is listened to solely from here.
-        if (isPoweredOn)
+        if (recordButtonPressed)
         {
-            if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.Remote) ||
-                    Input.GetKeyDown("space"))
-            {
-                StartRecording();
-            }
-            if (!isRecording) {
-                
-            }
-        }
-
-        // Let caller know recording is done.
-        if (isRecording) {
-            if (!Microphone.IsRecording(micName)) {
-                isRecording = false;
-                RECORDING = false;
-                caller.onFinishedRecording();
-                caller = null;
-            }
+            Microphone.IsRecording(micName) ? StopRecording : StartRecording();
+            introRecordingIcon.SetActive(Microphone.IsRecording(micName));
         }
 	}
     
-    public void StartRecording(MicReceiver receiver) {
-        isRecording = true;
-        RECORDING = true;
-        caller = receiver;
-
-        // 10 second recording
+    public void StartRecording() {
         recording = Microphone.Start(micName, true, maxDuration, 44100);
     }
 
-    // Stop recording manually if needed
+    // Recordings have maximum durations, but we can end them early too.
     public void StopRecording() {
         Microphone.End(micName);
-        isRecording = false;
-        RECORDING = false;
-        caller.onFinishedRecording();
-        caller = null;
     }
 }

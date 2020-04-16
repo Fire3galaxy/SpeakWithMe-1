@@ -5,15 +5,16 @@ using Valve.VR;
 
 // Intro Narrator script (bind to main player)
 // Plays on start of scene
-public class IntroductionNarrator : MonoBehaviour, MicReceiver {
+public class IntroductionNarrator : MonoBehaviour {
     public AudioClip[] clips;
     public GameObject IntroRecordingIcon;
 
     AudioSource playerAudio;
     PlayerMove playerMover;
+    PlayerMic playerMic;
     int currClip = 0;
     bool startedPlaying = false;
-    bool playedPlayer8 = false;
+    bool playedRecording = false;
     float timePassed = 0f;
     delegate void AdvanceFunction();
     SteamVR_Action_Boolean forwardAction, backwardAction, rotateLeft, rotateRight;
@@ -23,6 +24,7 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
     {
         playerAudio = GetComponent<AudioSource>();
         playerMover = GetComponent<PlayerMove>();
+        playerMic = GetComponent<PlayerMic>();
 
         forwardAction = SteamVR_Actions.demoControls_MoveForward;
         backwardAction = SteamVR_Actions.demoControls_MoveBackward;
@@ -32,7 +34,7 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
 
     private void handleUpdate(bool advanceConditionMet, params AdvanceFunction[] functions)
     {
-        if (!startedPlaying) 
+        if (!startedPlaying)
         {
             playCurrClip();
         }
@@ -58,26 +60,10 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
         startedPlaying = false;
     }
 
-    private void startRecording()
-    {
-        IntroRecordingIcon.SetActive(true);
-        GetComponent<PlayerMic>().StartRecording(this);
-    }
-
-    private void stopRecording()
-    {
-        IntroRecordingIcon.SetActive(false);
-        GetComponent<PlayerMic>().StopRecording();
-    }
-
     private void playRecording()
     {
         playerAudio.clip = GetComponent<PlayerMic>().recording;
         playerAudio.Play();
-    }
-	
-    public void onFinishedRecording()
-    {
     }
 
 	// Update is called once per frame
@@ -109,10 +95,9 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
                     break;
                 // Getting first recording
                 case 5:
-                    handleUpdate(OVRInput.Get(OVRInput.Button.One, OVRInput.Controller.Remote) || 
-                                    Input.GetKey("space"), 
-                                 startRecording,
-                                 advanceClip);
+                    // Ensure recording isn't in progress already due to button mashing
+                    if (!startedPlaying && playerMic.isRecording) playerMic.StopRecording();
+                    handleUpdate(playerMic.recordButtonPressed, advanceClip);
                     break;
                 // Waiting 3 seconds for recording
                 case 6:
@@ -121,17 +106,20 @@ public class IntroductionNarrator : MonoBehaviour, MicReceiver {
                     break;
                 // Stopping recording
                 case 7:
-                    handleUpdate(OVRInput.Get(OVRInput.Button.One, OVRInput.Controller.Remote) || 
-                                    Input.GetKey("space"), 
-                                stopRecording, 
-                                advanceClip);
+                    handleUpdate(playerMic.recordButtonPressed || !playerMic.isRecording, 
+                                 advanceClip);
                     break;
-                // Playing back recording
+                // Playing back recording, sending player off
                 case 8:
-                    if (!playedPlayer8) {
-                        handleUpdate(true, playRecording);
-                        playedPlayer8 = true;
-                    } else {
+                    // Player's recording isn't in our array, so we treat it as a precondition
+                    // to playing the next clip.
+                    if (!playedRecording)
+                    {
+                        playRecording();
+                        playedRecording = true;
+                    } 
+                    else 
+                    {
                         handleUpdate(true, advanceClip);
                     }
                     break;

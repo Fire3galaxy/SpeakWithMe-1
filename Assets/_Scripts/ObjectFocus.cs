@@ -12,7 +12,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
     Narrator narrator;
     PlayerMic playerMic;
     AudioSource PlayerAudio;
-    bool waiting = false;
+    bool recordingStarted = false;
     bool inTrigger = false;
 
 	// Use this for initialization
@@ -49,60 +49,45 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
 
     private void nextScriptLine()
     {
-        scriptLine++;
-        //narrator.StartNarrator(this);
+        if (scriptLine++ >= scriptHolder.script.Length) return;
 
-        if (scriptLine < scriptHolder.script.Length)
+        switch (scriptHolder.script[scriptLine])
         {
-            switch (scriptHolder.script[scriptLine])
-            {
-                case ScriptHolder.Narrator:
-                    narrator.StartNarrator(this);
-                    break;
-                case ScriptHolder.Dialogue:
-                    dialogue.StartDialogue(this);
-                    break;
-                case ScriptHolder.Player:
-                    Debug.Log("In Player");
-                    waiting = true;
-                    break;
-                case ScriptHolder.Pause:
-                    Debug.Log("In Pause");
-                    break;
-            }
+            case ScriptHolder.Narrator:
+                narrator.StartNarrator(this);
+                break;
+            case ScriptHolder.Dialogue:
+                dialogue.StartDialogue(this);
+                break;
+            case ScriptHolder.Player:
+                if (playerMic.isRecording) playerMic.StopRecording();
+                break;
+            case ScriptHolder.Pause:
+                break;
         }
-        Debug.Log("Test");
     }
 
     private void Update()
     {
-        if (waiting)
-        {
-            Debug.Log("In waiting if statement");
-            if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.Remote) ||
-                    Input.GetKeyDown("space"))
-            {
-                if (!playerMic.isRecording)
-                {
-                    playerMic.StartRecording(this);
-                }
-                else
-                {
-                    playerMic.StopRecording();
-                }
-            }
+        if (scriptLine >= scriptHolder.script.Length)
+            return;
 
-            else if (Input.GetKeyDown("s"))
-            {
-                onFinishedRecording();
-            }
-        }
-
-        if (scriptLine < scriptHolder.script.Length)
+        switch(scriptHolder.script[scriptLine])
         {
-            if (scriptHolder.script[scriptLine] == ScriptHolder.Pause)
-            {
-                Debug.Log("Inside Update Pause");
+            case ScriptHolder.Player:
+                if (playerMic.recordButtonPressed) {
+                    if (!recordingStarted) 
+                    {
+                        recordingStarted = true;
+                    }
+                    else
+                    {
+                        recordingStarted = false;
+                        nextScriptLine();
+                    }
+                }
+                break;
+            case ScriptHolder.Pause:
                 if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.Remote) || Input.GetKeyDown("l"))
                 {
                     PlayerAudio.clip = playerMic.recording;
@@ -115,7 +100,9 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
                         PlayerAudio.Stop();
                     nextScriptLine();
                 }
-            }
+                break;
+            default:
+                break;
         }
     }
 
@@ -123,13 +110,6 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
     public void OnClipFinished()
     {
         Debug.Log("Finish clip");
-        nextScriptLine();
-    }
-
-    public void onFinishedRecording()
-    {
-        Debug.Log("Finish recording");
-        waiting = false;
         nextScriptLine();
     }
 }
