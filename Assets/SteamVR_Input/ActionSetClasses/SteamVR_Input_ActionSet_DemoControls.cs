@@ -72,5 +72,21 @@ namespace Valve.VR
                 return SteamVR_Actions.demoControls_Record;
             }
         }
+        
+        public virtual SteamVR_Action_Boolean PlayRecording
+        {
+            get
+            {
+                return SteamVR_Actions.demoControls_PlayRecording;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean NextDialogue
+        {
+            get
+            {
+                return SteamVR_Actions.demoControls_NextDialogue;
+            }
+        }
     }
 }

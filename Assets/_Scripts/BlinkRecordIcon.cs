@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BlinkRecordIcon : MonoBehaviour {
     public float BlinkRate = 2f;
-    public MeshRenderer meshRenderer;
-    private float timePassed = 0f;
+    MeshRenderer meshRenderer;
+    float timePassed = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +18,7 @@ public class BlinkRecordIcon : MonoBehaviour {
         if (timePassed >= BlinkRate)
         {
             meshRenderer.enabled = !meshRenderer.enabled;
+            timePassed = 0f;
         }
 	}
 }

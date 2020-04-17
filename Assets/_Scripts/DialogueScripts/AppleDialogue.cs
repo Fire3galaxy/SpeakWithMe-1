@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class AppleDialogue : Dialogue {
     // Use this for initialization
-    void Start() {
+    override public void Start() {
         textContainer = GetComponentInChildren<Text>();
         scripts = new string[]{
             "Apple - 蘋果 \"Píngguǒ\"",

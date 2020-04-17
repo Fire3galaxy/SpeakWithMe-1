@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
+public class ObjectFocus : MonoBehaviour, NarratorCallback {
     int scriptLine = 0;
     public static bool PLAY_RECORDING = false;
 
     Dialogue dialogue;
     ScriptHolder scriptHolder;
     Narrator narrator;
-    PlayerMic playerMic;
+    PlayerMicControls playerMic;
     AudioSource PlayerAudio;
     bool recordingStarted = false;
     bool inTrigger = false;
@@ -20,7 +17,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
         dialogue = GetComponent<Dialogue>();
         scriptHolder = GetComponent<ScriptHolder>();
         narrator = GetComponent<Narrator>();
-        playerMic = GetComponent<PlayerMic>();
+        playerMic = GetComponent<PlayerMicControls>();
         PlayerAudio = GameObject.Find("/OVRPlayerController").GetComponent<AudioSource>();
     }
 
@@ -43,7 +40,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
     private void OnTriggerExit(Collider other) {
         dialogue.HideDialogue();
         inTrigger = false;
-        if (playerMic.isRecording)
+        if (playerMic.isRecording())
             playerMic.StopRecording();
     }
 
@@ -60,7 +57,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
                 dialogue.StartDialogue(this);
                 break;
             case ScriptHolder.Player:
-                if (playerMic.isRecording) playerMic.StopRecording();
+                if (playerMic.isRecording()) playerMic.StopRecording();
                 break;
             case ScriptHolder.Pause:
                 break;
@@ -75,7 +72,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
         switch(scriptHolder.script[scriptLine])
         {
             case ScriptHolder.Player:
-                if (playerMic.recordButtonPressed) {
+                if (playerMic.recordButtonPressed()) {
                     if (!recordingStarted) 
                     {
                         recordingStarted = true;
@@ -90,7 +87,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback, MicReceiver {
             case ScriptHolder.Pause:
                 if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.Remote) || Input.GetKeyDown("l"))
                 {
-                    PlayerAudio.clip = playerMic.recording;
+                    PlayerAudio.clip = playerMic.recording.audioClip;
                     PLAY_RECORDING = true;
                     PlayerAudio.Play();
                 }

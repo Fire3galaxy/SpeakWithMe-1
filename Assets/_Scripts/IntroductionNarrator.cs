@@ -9,30 +9,27 @@ public class IntroductionNarrator : MonoBehaviour {
     public AudioClip[] clips;
     public GameObject IntroRecordingIcon;
 
-    AudioSource playerAudio;
-    PlayerMove playerMover;
-    PlayerMic playerMic;
-    int currClip = 0;
+    AudioSource narratorAudio, playerAudio;
+    PlayerMoveControls playerMover;
+    PlayerMicControls playerMic;
+    PlayerDialogueControls playerDialogueControls;
+    int currClip = 5; // 0; DEBUGGING
     bool startedPlaying = false;
     bool playedRecording = false;
     float timePassed = 0f;
     delegate void AdvanceFunction();
-    SteamVR_Action_Boolean forwardAction, backwardAction, rotateLeft, rotateRight;
 
     // Use this for initialization
     void Start () 
     {
-        playerAudio = GetComponent<AudioSource>();
-        playerMover = GetComponent<PlayerMove>();
-        playerMic = GetComponent<PlayerMic>();
-
-        forwardAction = SteamVR_Actions.demoControls_MoveForward;
-        backwardAction = SteamVR_Actions.demoControls_MoveBackward;
-        rotateLeft = SteamVR_Actions.demoControls_RotateLeft;
-        rotateRight = SteamVR_Actions.demoControls_RotateRight;
+        narratorAudio = transform.Find("Narrator Audio").GetComponent<AudioSource>();
+        playerAudio = transform.Find("Recordings Audio").GetComponent<AudioSource>();
+        playerMover = GetComponent<PlayerMoveControls>();
+        playerMic = GetComponent<PlayerMicControls>();
+        playerDialogueControls = GetComponent<PlayerDialogueControls>();
     }
 
-    private void handleUpdate(bool advanceConditionMet, params AdvanceFunction[] functions)
+    void handleUpdate(bool advanceConditionMet, params AdvanceFunction[] functions)
     {
         if (!startedPlaying)
         {
@@ -47,57 +44,62 @@ public class IntroductionNarrator : MonoBehaviour {
         }
     }
 
-    private void playCurrClip()
+    void playCurrClip()
     {
-        playerAudio.clip = clips[currClip];
-        playerAudio.Play();
+        Debug.Log("Playing clip named " + clips[currClip].name);
+        playerAudio.Stop();
+        narratorAudio.clip = clips[currClip];
+        narratorAudio.Play();
         startedPlaying = true;
     }
 
-    private void advanceClip()
+    void advanceClip()
     {
         currClip++;
         startedPlaying = false;
     }
 
-    private void playRecording()
+    void playRecording()
     {
-        playerAudio.clip = GetComponent<PlayerMic>().recording;
-        playerAudio.Play();
+        Debug.Log("Playing recording of length " + playerMic.recording.length);
+        narratorAudio.Stop();
+        playerAudio.clip = playerMic.recording.audioClip;
+        playerAudio.PlayScheduled(AudioSettings.dspTime);
+        playerAudio.SetScheduledEndTime(AudioSettings.dspTime + playerMic.recording.length);
     }
 
 	// Update is called once per frame
 	void Update () 
     {
-        if (!playerAudio.isPlaying)
+        if (!narratorAudio.isPlaying && !playerAudio.isPlaying)
         {
             switch (currClip)
             {
                 // Just go to next clip once clip has played
                 case 0:
                 case 1:
-                case 9:
+                case 8:
                     handleUpdate(true, advanceClip);
                     break;
                 // Teaching moving forward
                 case 2:
-                    handleUpdate(playerMover.movingForward, advanceClip);
+                    handleUpdate(playerMover.movingForward(), advanceClip);
                     break;
                 // Teaching moving backwards
                 case 3:
-                    handleUpdate(playerMover.movingBackward, 
+                    handleUpdate(playerMover.movingBackward(), 
                                 advanceClip);
                     break;
                 // Teaching moving in arbitrary direction
                 case 4:
-                    handleUpdate(playerMover.movingBackward || playerMover.movingForward, 
+                    handleUpdate(playerMover.movingBackward() || playerMover.movingForward(), 
                                  advanceClip);
                     break;
                 // Getting first recording
                 case 5:
                     // Ensure recording isn't in progress already due to button mashing
-                    if (!startedPlaying && playerMic.isRecording) playerMic.StopRecording();
-                    handleUpdate(playerMic.recordButtonPressed, advanceClip);
+                    if (!startedPlaying && playerMic.isRecording()) playerMic.StopRecording();
+                    handleUpdate(playerMic.recordButtonPressed(), advanceClip);
                     break;
                 // Waiting 3 seconds for recording
                 case 6:
@@ -106,17 +108,20 @@ public class IntroductionNarrator : MonoBehaviour {
                     break;
                 // Stopping recording
                 case 7:
-                    handleUpdate(playerMic.recordButtonPressed || !playerMic.isRecording, 
+                    handleUpdate(playerMic.recordButtonPressed() || !playerMic.isRecording(), 
                                  advanceClip);
                     break;
                 // Playing back recording, sending player off
-                case 8:
+                case 9:
                     // Player's recording isn't in our array, so we treat it as a precondition
                     // to playing the next clip.
-                    if (!playedRecording /* FIXME: AND player pressed play recording button */)
+                    if (!playedRecording)
                     {
-                        playRecording();
-                        playedRecording = true;
+                        if (playerDialogueControls.playRecordingButtonPressed())
+                        {
+                            playRecording();
+                            playedRecording = true;
+                        }
                     }
                     else 
                     {

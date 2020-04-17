@@ -34,6 +34,16 @@
       "name": "/actions/DemoControls/in/Record",
       "type": "boolean",
       "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/DemoControls/in/PlayRecording",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/DemoControls/in/NextDialogue",
+      "type": "boolean",
+      "requirement": "mandatory"
     }
   ],
   "action_sets": [
