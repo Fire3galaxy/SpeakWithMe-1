@@ -29,7 +29,7 @@ public class IntroductionNarrator : MonoBehaviour {
         playerDialogueControls = GetComponent<PlayerDialogueControls>();
     }
 
-    void handleUpdate(bool advanceConditionMet, params AdvanceFunction[] functions)
+    void handleClipsUpdate(bool advanceConditionMet, params AdvanceFunction[] functions)
     {
         if (!startedPlaying)
         {
@@ -79,36 +79,36 @@ public class IntroductionNarrator : MonoBehaviour {
                 case 0:
                 case 1:
                 case 8:
-                    handleUpdate(true, advanceClip);
+                    handleClipsUpdate(true, advanceClip);
                     break;
                 // Teaching moving forward
                 case 2:
-                    handleUpdate(playerMover.movingForward(), advanceClip);
+                    handleClipsUpdate(playerMover.movingForward(), advanceClip);
                     break;
                 // Teaching moving backwards
                 case 3:
-                    handleUpdate(playerMover.movingBackward(), 
+                    handleClipsUpdate(playerMover.movingBackward(), 
                                 advanceClip);
                     break;
                 // Teaching moving in arbitrary direction
                 case 4:
-                    handleUpdate(playerMover.movingBackward() || playerMover.movingForward(), 
+                    handleClipsUpdate(playerMover.movingBackward() || playerMover.movingForward(), 
                                  advanceClip);
                     break;
                 // Getting first recording
                 case 5:
                     // Ensure recording isn't in progress already due to button mashing
                     if (!startedPlaying && playerMic.isRecording()) playerMic.StopRecording();
-                    handleUpdate(playerMic.recordButtonPressed(), advanceClip);
+                    handleClipsUpdate(playerMic.recordButtonPressed(), advanceClip);
                     break;
                 // Waiting 3 seconds for recording
                 case 6:
                     timePassed += Time.deltaTime;
-                    handleUpdate(timePassed >= 3.0f, advanceClip);
+                    handleClipsUpdate(timePassed >= 3.0f, advanceClip);
                     break;
                 // Stopping recording
                 case 7:
-                    handleUpdate(playerMic.recordButtonPressed() || !playerMic.isRecording(), 
+                    handleClipsUpdate(playerMic.recordButtonPressed() || !playerMic.isRecording(), 
                                  advanceClip);
                     break;
                 // Playing back recording, sending player off
@@ -125,7 +125,7 @@ public class IntroductionNarrator : MonoBehaviour {
                     }
                     else 
                     {
-                        handleUpdate(true, advanceClip);
+                        handleClipsUpdate(true, advanceClip);
                     }
                     break;
                 default:

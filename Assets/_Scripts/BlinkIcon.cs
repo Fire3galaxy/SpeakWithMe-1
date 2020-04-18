@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlinkRecordIcon : MonoBehaviour {
+public class BlinkIcon : MonoBehaviour {
     public float BlinkRate = 2f;
     MeshRenderer meshRenderer;
     float timePassed = 0f;
@@ -21,4 +21,10 @@ public class BlinkRecordIcon : MonoBehaviour {
             timePassed = 0f;
         }
 	}
+
+    void OnDisable()
+    {
+        meshRenderer.enabled = true;
+        Debug.Log("OnDisable: BlinkIcon for " + gameObject.name);
+    }
 }
