@@ -1,47 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class DirectionPoliceScript : ScriptHolder {
+﻿public class DirectionPoliceScript : ScriptHolder {
     void Start()
     {
-        script = new int[]{
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause,
+        script = new Speaker[]{
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
 
-            Dialogue,
-            Player,
-            Pause,
-            Narrator,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
+            Speaker.Narrator,
 
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
 
-            Narrator,
+            Speaker.Narrator,
 
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
 
-            Narrator,
-            Dialogue
+            Speaker.Narrator,
+            Speaker.Dialogue
         };
     }
 }

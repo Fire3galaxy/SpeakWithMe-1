@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class EmptyScript : ScriptHolder {
+﻿public class EmptyScript : ScriptHolder {
     void Start()
     {
-        script = new int[]{};
+        script = new Speaker[]{};
     }
 }

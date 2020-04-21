@@ -1,35 +1,35 @@
 ﻿public class GreetingGuyScript : ScriptHolder {
     void Start()
     {
-        script = new int[]{
-            Narrator,
-            Dialogue,
-            Dialogue,
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Dialogue,
-            Player,
-            Pause, // end of one
-            Narrator,
-            Dialogue,
-            Dialogue,
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Dialogue,
-            Player,
-            Pause,      // end of second lesson
-            Narrator, // 42
-            Dialogue,
-            Player,
-            Pause,
-            Dialogue,
-            Player,
-            Pause, // end of 3
-            Narrator
+        script = new Speaker[]{
+            Speaker.Narrator,
+            Speaker.Dialogue,
+            Speaker.Dialogue,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
+            Speaker.Dialogue,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause, // end of one
+            Speaker.Narrator,
+            Speaker.Dialogue,
+            Speaker.Dialogue,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
+            Speaker.Dialogue,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,      // end of second lesson
+            Speaker.Narrator, // 42
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause,
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause, // end of 3
+            Speaker.Narrator
         };
     }
 }

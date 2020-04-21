@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using Speaker = ScriptHolder.Speaker;
+
 /* ObjectFocus.cs
  * The central logic script for initiating conversation with an NPC. Runs the dialogue scripts.
  */
@@ -31,11 +33,11 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
         Debug.Log("Entering trigger for " + gameObject.name);
         if (scriptLine < scriptHolder.script.Length)
         {
-            if (scriptHolder.script[scriptLine] == ScriptHolder.Narrator)
+            if (scriptHolder.script[scriptLine] == Speaker.Narrator)
             {
                 narrator.StartNarrator(this);
             }
-            else if (scriptHolder.script[scriptLine] == ScriptHolder.Dialogue)
+            else if (scriptHolder.script[scriptLine] == Speaker.Dialogue)
             {
                 dialogue.StartDialogue(this);
             }
@@ -54,16 +56,16 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
 
         switch (scriptHolder.script[scriptLine])
         {
-            case ScriptHolder.Narrator:
+            case Speaker.Narrator:
                 narrator.StartNarrator(this);
                 break;
-            case ScriptHolder.Dialogue:
+            case Speaker.Dialogue:
                 dialogue.StartDialogue(this);
                 break;
-            case ScriptHolder.Player:
+            case Speaker.Player:
                 if (playerMicControls.isRecording()) playerMicControls.StopRecording();
                 break;
-            case ScriptHolder.Pause:
+            case Speaker.Pause:
                 break;
         }
     }
@@ -75,7 +77,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
 
         switch(scriptHolder.script[scriptLine])
         {
-            case ScriptHolder.Player:
+            case Speaker.Player:
                 if (playerMicControls.recordButtonPressed()) {
                     if (!recordingStarted) 
                     {
@@ -88,7 +90,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
                     }
                 }
                 break;
-            case ScriptHolder.Pause:
+            case Speaker.Pause:
                 if (playerDialogueControls.playRecordingButtonPressed())
                 {
                     recordingsAudio.clip = playerMicControls.recording.audioClip;

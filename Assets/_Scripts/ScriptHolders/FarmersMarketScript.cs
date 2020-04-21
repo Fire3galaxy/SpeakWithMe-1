@@ -1,14 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class FarmersMarketScript : ScriptHolder {
+﻿public class FarmersMarketScript : ScriptHolder {
     void Start()
     {
-        script = new int[]{
-            Dialogue,
-            Player,
-            Pause
+        script = new Speaker[]{
+            Speaker.Dialogue,
+            Speaker.Player,
+            Speaker.Pause
         };
     }
 }

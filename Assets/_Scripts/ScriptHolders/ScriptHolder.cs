@@ -6,15 +6,12 @@ public abstract class ScriptHolder : MonoBehaviour {
     // Dialogue: Do text + Chinese audio
     // Player: Record the player
     // Pause: Wait for user to go to next line, playback recording, or go back.
-    public const int Narrator = 0, Dialogue = 1, Player = 2, Pause = 3;
-    public enum Line {
+    public Speaker[] script = { };
+
+    public enum Speaker {
         Narrator,
         Dialogue,
         Player,
         Pause
     }
-
-    // FIXME: In Unity, write down the order of lines for each script holder BEFORE
-    // I change this to a Line enum array and delete the const ints.
-    public int[] script = { };
 }
