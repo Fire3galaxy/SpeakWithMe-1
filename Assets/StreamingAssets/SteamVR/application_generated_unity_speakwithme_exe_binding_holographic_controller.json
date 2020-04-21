@@ -101,6 +101,24 @@
                },
                "mode" : "button",
                "path" : "/user/hand/right/input/trigger"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/democontrols/in/nextdialogue"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/grip"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/democontrols/in/nextdialogue"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/right/input/grip"
             }
          ]
       },
@@ -115,7 +133,7 @@
    "category" : "steamvr_input",
    "controller_type" : "holographic_controller",
    "description" : "Microsoft recommended legacy bindings",
-   "name" : "My SpeakWithMe [Testing] configuration for Windows Mixed Reality Controller",
+   "name" : "Saved SpeakWithMe [Testing] configuration for Windows Mixed Reality Controller",
    "options" : {},
    "simulated_actions" : []
 }

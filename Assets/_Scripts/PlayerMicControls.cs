@@ -4,7 +4,6 @@ using Valve.VR;
 // Stores the audio clip for a single object, starts/stops recording
 // Is not responsible for playing the audio clip, only recording it.
 public class PlayerMicControls : MonoBehaviour {
-    public GameObject introRecordingIcon;
     public int maxDuration = 10;
     
     // FIXME: Probably should turn this into something in a settings menu
@@ -25,24 +24,16 @@ public class PlayerMicControls : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        // Recording ends due to max duration rather than explicit button press
-        if (introRecordingIcon.activeSelf && !isRecording())
-        {
-            introRecordingIcon.SetActive(false);
-        }
-
         // Below code handles pressing the record button
         if (!recordButtonPressed()) return;
 
         if (isRecording())
         {
             StopRecording(); 
-            introRecordingIcon.SetActive(false);
         }
         else
         {
             StartRecording();
-            introRecordingIcon.SetActive(true);
         }
 	}
     

@@ -7,13 +7,13 @@ using Valve.VR;
 // Plays on start of scene
 public class IntroductionNarrator : MonoBehaviour {
     public AudioClip[] clips;
-    public GameObject IntroRecordingIcon;
+    public int debugStartingIndex = 9;
 
     AudioSource narratorAudio, playerAudio;
     PlayerMoveControls playerMover;
     PlayerMicControls playerMic;
     PlayerDialogueControls playerDialogueControls;
-    int currClip = 5; // 0; DEBUGGING
+    int currClip = 0;
     bool startedPlaying = false;
     bool playedRecording = false;
     float timePassed = 0f;
@@ -27,6 +27,9 @@ public class IntroductionNarrator : MonoBehaviour {
         playerMover = GetComponent<PlayerMoveControls>();
         playerMic = GetComponent<PlayerMicControls>();
         playerDialogueControls = GetComponent<PlayerDialogueControls>();
+
+        // DEBUG CODE
+        currClip = debugStartingIndex;
     }
 
     void handleClipsUpdate(bool advanceConditionMet, params AdvanceFunction[] functions)

@@ -24,7 +24,8 @@ public class ControllerIconDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Transform player = transform.Find("/OpenVR Player");
+        Debug.Log("DANIEL: " + PlayerLoader.playerPath());
+        Transform player = transform.Find(PlayerLoader.playerPath());
         playerMic = player.GetComponent<PlayerMicControls>();
         narratorAudio = player.Find("Narrator Audio").GetComponent<AudioSource>();
         playerAudio = player.Find("Recordings Audio").GetComponent<AudioSource>();
@@ -45,14 +46,6 @@ public class ControllerIconDisplay : MonoBehaviour
             GameObject iconCard = GameObject.Instantiate(iconCardPrefab, trackpadTransform, false);
             recordingIconBlinker = iconCard.transform.Find("Intro Recording Icon").GetComponent<BlinkIcon>();
             playingIconBlinker = iconCard.transform.Find("PlayButton").GetComponent<BlinkIcon>();
-            // recordingIcon.transform.localPosition = modelPositionOffset;
-            // recordingIcon.transform.localRotation = iconRotation;
-            // recordingIcon.SetActive(false);
-
-            // playingIcon = GameObject.Instantiate(playingIconPrefab, trackpadTransform, true);
-            // playingIcon.transform.localPosition = modelPositionOffset;
-            // playingIcon.transform.localRotation = iconRotation;
-            // playingIcon.SetActive(false);
 
             instantiatedIcons = true;
             return;

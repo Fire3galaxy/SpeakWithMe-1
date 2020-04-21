@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class BananaDialogue : Dialogue
 {
-    // Use this for initialization
-    public override void Start()
+    string[] _scripts = new string[] {
+                            "Banana 香蕉 (Hsiang Chiao)"
+                        };
+
+    protected override string[] scripts
     {
-        base.Start();
-        textContainer = GetComponentInChildren<Text>();
-        scripts = new string[]{
-            "Banana 香蕉 (Hsiang Chiao)"
-        };
+        get {
+            return _scripts;
+        }
     }
 }

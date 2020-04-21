@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Valve.VR;
+
+using HeadsetType = PlayerLoader.HeadsetType;
 
 public class PlayerMoveControls : MonoBehaviour {
     public float movementSpeed = .02f;
@@ -13,12 +13,16 @@ public class PlayerMoveControls : MonoBehaviour {
     SteamVR_Action_Boolean steamRotateLeftAction;
     SteamVR_Action_Boolean steamRotateRightAction;
     SteamVR_Action_Vector2 steamMoveJoystick;
-
     Transform hmdTransform;
 
 	// Use this for initialization
 	void Start () {
-        hmdTransform = transform.Find("Camera");
+        PlayerLoader loader = GetComponent<PlayerLoader>();
+        if (loader.headsetType == HeadsetType.OpenVR)
+            hmdTransform = transform.Find("OpenVR Player/Camera");
+        else
+            hmdTransform = transform.Find("OVRPlayerController/OVRCameraRig/" +
+                                          "TrackingSpace/CenterEyeAnchor");
         steamForwardAction = SteamVR_Actions.demoControls_MoveForward;
         steamBackwardAction = SteamVR_Actions.demoControls_MoveBackward;
         steamRotateLeftAction = SteamVR_Actions.demoControls_RotateLeft;

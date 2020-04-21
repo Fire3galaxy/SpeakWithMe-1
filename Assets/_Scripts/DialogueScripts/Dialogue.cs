@@ -1,30 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 // Parent of all specific text classes
 public abstract class Dialogue : MonoBehaviour {
-    public Text textContainer;
-    public int scriptLine = 0;
-    public string[] scripts;
     public AudioClip[] clips;
-    public AudioSource PlayerAudio;
-    public NarratorCallback caller;
+    
+    // Must be set by children
+    protected abstract string[] scripts { get; }
 
+    private int scriptLine = 0;
+    private AudioSource narratorAudio;
+    private Text textContainer;
+    private NarratorCallback caller;
     private bool isPlaying = false;
     private bool endOfDialogue = false;
 
-    public virtual void Start()
+    // Intentionally set as private to prevent overriding by children
+    private void Start()
     {
-        PlayerAudio = GameObject.Find("/OVRPlayerController").GetComponent<AudioSource>();
+        narratorAudio = GameObject.Find(PlayerLoader.playerPath() + "/Narrator Audio")
+                                  .GetComponent<AudioSource>();
+        textContainer = GetComponentInChildren<Text>();
     }
 
-    public void Update()
+    private void Update()
     {
-        if ((isPlaying && !PlayerAudio.isPlaying) || endOfDialogue)
+        if ((isPlaying && !narratorAudio.isPlaying) || endOfDialogue)
         {
-            //NextLine();
             scriptLine++;
             Debug.Log("In here? " + scriptLine);
             isPlaying = false;
@@ -37,27 +39,22 @@ public abstract class Dialogue : MonoBehaviour {
         if (scriptLine >= scripts.Length)
         {
             EndDialogue();
-            Debug.Log("Should not see this");
+            Debug.LogError("Should not see this");
         }
 
-        Debug.Log("script line for dialogue: " + scriptLine);
         textContainer.text = scripts[scriptLine];
         textContainer.gameObject.SetActive(true);
 
         Debug.Log("Here");
 
         isPlaying = true;
-        PlayerAudio.clip = clips[scriptLine];
-        PlayerAudio.Play();
+        narratorAudio.clip = clips[scriptLine];
+        narratorAudio.Play();
 
-        Debug.Log("Player audio: " + PlayerAudio.isPlaying);
+        Debug.Log("Player audio: " + narratorAudio.isPlaying);
 
         this.caller = caller;
     }
-
-    //public void NextLine() {
-    //    scriptLine++;
-    //}
 
     public void HideDialogue() {
         textContainer.gameObject.SetActive(false);

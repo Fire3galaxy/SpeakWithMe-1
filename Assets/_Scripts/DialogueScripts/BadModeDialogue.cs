@@ -5,15 +5,16 @@ using UnityEngine.UI;
 
 public class BadModeDialogue : Dialogue
 {
-    // Use this for initialization
-    public override void Start()
+    string[] _scripts = new string[] {
+                            "I’m screwed 悲劇 (Pei Chu)",
+                            "I’m so so happy 很爽 (Hen Shuang)",
+                            "Homebody 宅 (Chai)"
+                        };
+
+    protected override string[] scripts
     {
-        base.Start();
-        textContainer = GetComponentInChildren<Text>();
-        scripts = new string[]{
-            "I’m screwed 悲劇 (Pei Chu)",
-            "I’m so so happy 很爽 (Hen Shuang)",
-            "Homebody 宅 (Chai)"
-        };
+        get {
+            return _scripts;
+        }
     }
 }

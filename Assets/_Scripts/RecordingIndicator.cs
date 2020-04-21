@@ -12,7 +12,7 @@ public class RecordingIndicator : MonoBehaviour {
     {
         text = GetComponent<Text>();
         text.color = new Color(1, 0, 0);
-        GameObject player = GameObject.Find("/OpenVR Player");
+        GameObject player = GameObject.Find(PlayerLoader.playerPath());
         playerAudio = player.GetComponent<AudioSource>();
         playerMic = player.GetComponent<PlayerMicControls>();
     }

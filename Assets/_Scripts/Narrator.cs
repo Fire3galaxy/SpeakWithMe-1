@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public interface NarratorCallback
 {
@@ -9,17 +7,18 @@ public interface NarratorCallback
 
 public class Narrator : MonoBehaviour {
     public AudioClip[] narratorClips;
-    public int clipNum;
-    public AudioSource PlayerAudio;
-    public NarratorCallback scriptLogic;
 
+    private int clipNum;
+    private NarratorCallback scriptLogic;
+    private AudioSource narratorAudio;
     private float clipLength;
     private float timePassed;
     private bool isPlaying;
 
 	// Use this for initialization
 	void Start () {
-        PlayerAudio = GameObject.Find("/OVRPlayerController").GetComponent<AudioSource>();
+        narratorAudio = GameObject.Find(PlayerLoader.playerPath() + "/Narrator Audio")
+                                  .GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -30,7 +29,7 @@ public class Narrator : MonoBehaviour {
 
             if (timePassed >= clipLength)
             {
-                if (!PlayerAudio.isPlaying)
+                if (!narratorAudio.isPlaying)
                 {
                     isPlaying = false;
                     clipNum++;
@@ -45,9 +44,9 @@ public class Narrator : MonoBehaviour {
     public void StartNarrator(NarratorCallback caller)
     {
         scriptLogic = caller;
-        PlayerAudio.clip = narratorClips[clipNum];
+        narratorAudio.clip = narratorClips[clipNum];
         clipLength = narratorClips[clipNum].length;
-        PlayerAudio.Play();
+        narratorAudio.Play();
         timePassed = 0.0f;
         isPlaying = true;
     }
