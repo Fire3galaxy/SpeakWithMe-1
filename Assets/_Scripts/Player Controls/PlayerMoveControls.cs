@@ -48,14 +48,11 @@ public class PlayerMoveControls : MonoBehaviour {
 
         if (hmdType == HeadsetType.NoVR)
         {
-            Debug.Log("In NoVR, rotateLeft == " + rotatingLeftNoVR());
-            Debug.Log("In NoVR, rotateRight == " + rotatingRightNoVR());
             if (rotatingLeftNoVR()) rotateLeft(rotationSpeed);
             if (rotatingRightNoVR()) rotateRight(rotationSpeed);
         }
         else
         {
-            Debug.Log("In VR, hmdType == " + hmdType);
             if (rotatingLeftVR()) rotateLeft(rotationAmountPerPress);
             if (rotatingRightVR()) rotateRight(rotationAmountPerPress);
         }

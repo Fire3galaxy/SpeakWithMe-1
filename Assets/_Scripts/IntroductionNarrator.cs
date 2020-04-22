@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Valve.VR;
+﻿using UnityEngine;
 
 // Intro Narrator script (bind to main player)
 // Plays on start of scene
