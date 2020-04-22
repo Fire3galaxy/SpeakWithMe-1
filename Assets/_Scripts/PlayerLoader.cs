@@ -4,13 +4,14 @@
 public class PlayerLoader : MonoBehaviour
 {
     public HeadsetType headsetType;
-    public GameObject OVRHeadsetPrefab, OpenVRHeadsetPrefab;
+    public GameObject OVRHeadsetPrefab, OpenVRHeadsetPrefab, NoVRPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        GameObject objectToInstantiate = headsetType == HeadsetType.OVR ? 
-                                         OVRHeadsetPrefab : OpenVRHeadsetPrefab;
+        GameObject objectToInstantiate = headsetType == HeadsetType.OVR ? OVRHeadsetPrefab :
+                                         headsetType == HeadsetType.OpenVR ? OpenVRHeadsetPrefab :
+                                         NoVRPrefab;
         GameObject playerObject = Instantiate(objectToInstantiate, transform, true);
         playerObject.name = objectToInstantiate.name; // Removes "(Clone)" from name.
     }
@@ -19,8 +20,9 @@ public class PlayerLoader : MonoBehaviour
     {
         return "/Player";
     }
+    
 
     public enum HeadsetType {
-        OVR, OpenVR
+        OVR, OpenVR, NoVR
     }
 }

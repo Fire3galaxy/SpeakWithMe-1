@@ -4,8 +4,14 @@ using Valve.VR;
 using HeadsetType = PlayerLoader.HeadsetType;
 
 public class PlayerMoveControls : MonoBehaviour {
+    [Tooltip("For VR and non-VR")]
     public float movementSpeed = .02f;
-    public float rotationSpeed = 15f;
+    [Tooltip("For VR")]
+    [Range(0f, 360f)]
+    public float rotationAmountPerPress = 15f;
+    [Tooltip("For non-VR")]
+    [Range(0f, 15f)]
+    public float rotationSpeed = 1.7f;
 
     float joystickThreshold = .2f;
     SteamVR_Action_Boolean steamForwardAction;
@@ -14,15 +20,16 @@ public class PlayerMoveControls : MonoBehaviour {
     SteamVR_Action_Boolean steamRotateRightAction;
     SteamVR_Action_Vector2 steamMoveJoystick;
     Transform hmdTransform;
+    HeadsetType hmdType;
 
 	// Use this for initialization
 	void Start () {
-        PlayerLoader loader = GetComponent<PlayerLoader>();
-        if (loader.headsetType == HeadsetType.OpenVR)
-            hmdTransform = transform.Find("OpenVR Player/Camera");
-        else
-            hmdTransform = transform.Find("OVRPlayerController/OVRCameraRig/" +
-                                          "TrackingSpace/CenterEyeAnchor");
+        hmdType = GetComponent<PlayerLoader>().headsetType;
+        string cameraLocation = hmdType == HeadsetType.OVR ?    "OVRPlayerController/OVRCameraRig/" +
+                                                                    "TrackingSpace/CenterEyeAnchor" :
+                                hmdType == HeadsetType.OpenVR ? "OpenVR Player/Camera" : 
+                                                                "Standard Camera";
+        hmdTransform = transform.Find(cameraLocation);
         steamForwardAction = SteamVR_Actions.demoControls_MoveForward;
         steamBackwardAction = SteamVR_Actions.demoControls_MoveBackward;
         steamRotateLeftAction = SteamVR_Actions.demoControls_RotateLeft;
@@ -30,55 +37,62 @@ public class PlayerMoveControls : MonoBehaviour {
         steamMoveJoystick = SteamVR_Actions.demoControls_Move;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        if (joystickExceedsThreshold())
-        {
-            moveWithJoystick(steamMoveJoystick.axis);
-        }
+	void FixedUpdate () {
+        // JOYSTICK CONTROLS
+        if (joystickExceedsThreshold()) moveWithJoystick(steamMoveJoystick.axis);
 
+        // DPAD CONTROLS
         // Don't count joystick twice for motion
-        if (movingForward() && !movingForwardJoystick())
-        {
-            moveForwardDPad();
-        }
-        
-        if (movingBackward() && !movingBackwardsJoystick())
-        {
-            moveBackwardDPad();
-        }
+        if (movingForward() && !movingForwardJoystick()) moveForward();
+        if (movingBackward() && !movingBackwardsJoystick()) moveBackward();
 
-        if (rotatingRight())
+        if (hmdType == HeadsetType.NoVR)
         {
-            rotateRightDPad();
+            Debug.Log("In NoVR, rotateLeft == " + rotatingLeftNoVR());
+            Debug.Log("In NoVR, rotateRight == " + rotatingRightNoVR());
+            if (rotatingLeftNoVR()) rotateLeft(rotationSpeed);
+            if (rotatingRightNoVR()) rotateRight(rotationSpeed);
         }
-
-        if (rotatingLeft())
+        else
         {
-            rotateLeftDPad();
+            Debug.Log("In VR, hmdType == " + hmdType);
+            if (rotatingLeftVR()) rotateLeft(rotationAmountPerPress);
+            if (rotatingRightVR()) rotateRight(rotationAmountPerPress);
         }
     }
 
-    // Right now, only 2 options: steam or oculus/keyboard
-    void moveForwardDPad()
+    void moveForward()
     {
         transform.position += transform.forward * movementSpeed;
     }
 
-    void moveBackwardDPad()
+    void moveBackward()
     {
         transform.position += -transform.forward * movementSpeed;
     }
 
-    public void rotateLeftDPad()
+    void rotateLeft(float rotationAmount)
     {
-        transform.Rotate(0f, -rotationSpeed, 0f);
+        transform.Rotate(0f, -rotationAmount, 0f);
     }
 
-    public void rotateRightDPad()
+    void rotateRight(float rotationAmount)
     {
-        // Vector3 currRotation = transform.localEulerAngles;
-        transform.Rotate(0f, rotationSpeed, 0f);
+        transform.Rotate(0f, rotationAmount, 0f);
+    }
+    
+    void moveWithJoystick(Vector2 axis)
+    {
+        float playerYRotation = hmdTransform.eulerAngles.y * Mathf.Deg2Rad;
+        float cosRot = Mathf.Cos(playerYRotation);
+        float sinRot = Mathf.Sin(playerYRotation);
+
+        Vector3 positionDelta = new Vector3(
+                movementSpeed * (axis.x * cosRot + axis.y * sinRot),
+                0f,
+                movementSpeed * (-axis.x * sinRot + axis.y * cosRot)
+            );
+        transform.position += positionDelta;
     }
 
     public bool movingForward()
@@ -97,28 +111,24 @@ public class PlayerMoveControls : MonoBehaviour {
                movingBackwardsJoystick();
     }
 
-    public bool rotatingRight()
+    public bool rotatingRightNoVR()
     {
-        return steamRotateRightAction.stateDown;
+        return Input.GetKey(KeyCode.RightArrow) || steamRotateRightAction.state;
     }
 
-    public bool rotatingLeft()
+    public bool rotatingRightVR()
     {
-        return steamRotateLeftAction.stateDown;
+        return Input.GetKeyDown(KeyCode.RightArrow) || steamRotateRightAction.stateDown;
     }
 
-    void moveWithJoystick(Vector2 axis)
+    public bool rotatingLeftNoVR()
     {
-        float playerYRotation = hmdTransform.eulerAngles.y * Mathf.Deg2Rad;
-        float cosRot = Mathf.Cos(playerYRotation);
-        float sinRot = Mathf.Sin(playerYRotation);
+        return Input.GetKey(KeyCode.LeftArrow) || steamRotateLeftAction.state;
+    }
 
-        Vector3 positionDelta = new Vector3(
-                movementSpeed * (axis.x * cosRot + axis.y * sinRot),
-                0f,
-                movementSpeed * (-axis.x * sinRot + axis.y * cosRot)
-            );
-        transform.position += positionDelta;
+    public bool rotatingLeftVR()
+    {
+        return Input.GetKeyDown(KeyCode.LeftArrow) || steamRotateLeftAction.stateDown;
     }
 
     bool joystickExceedsThreshold()

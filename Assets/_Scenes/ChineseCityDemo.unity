@@ -567,6 +567,90 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1001 &131869327
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.3788002
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.14087534
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99002737
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032071940809339936, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769732118665411311, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_Name
+      value: Standard Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769732118665411311, guid: 50716c2cfb165bf4cae9428559e04345,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 50716c2cfb165bf4cae9428559e04345, type: 3}
 --- !u!1 &143274647
 GameObject:
   m_ObjectHideFlags: 0
@@ -2217,10 +2301,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a500124bebabfe84994a69e13386b7e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headsetType: 1
+  headsetType: 2
   OVRHeadsetPrefab: {fileID: 3243489411076407976, guid: 30aea613d6fe73941bacbddc83578003,
     type: 3}
   OpenVRHeadsetPrefab: {fileID: 7944197189140800204, guid: 4d3662547563d5f40b4c488361d69efc,
+    type: 3}
+  NoVRPrefab: {fileID: 2769732118665411311, guid: 50716c2cfb165bf4cae9428559e04345,
     type: 3}
 --- !u!114 &1322257911
 MonoBehaviour:
@@ -2247,7 +2333,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 0.02
-  rotationSpeed: 15
+  rotationAmountPerPress: 15
+  rotationSpeed: 1.7
 --- !u!114 &1322257913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2261,7 +2348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDuration: 10
-  debugSelectMic: 1
+  debugSelectMic: 0
 --- !u!114 &1322257914
 MonoBehaviour:
   m_ObjectHideFlags: 0
