@@ -3,12 +3,12 @@
 // Loads player prefab into the world under common object name "Player"
 public class PlayerLoader : MonoBehaviour
 {
-    public HeadsetType headsetType;
     public GameObject OVRHeadsetPrefab, OpenVRHeadsetPrefab, NoVRPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
+        HeadsetType headsetType = (HeadsetType) PlayerPrefs.GetInt(PlayStyleSettings.preferenceKey);
         GameObject objectToInstantiate = headsetType == HeadsetType.OVR ? OVRHeadsetPrefab :
                                          headsetType == HeadsetType.OpenVR ? OpenVRHeadsetPrefab :
                                          NoVRPrefab;
@@ -21,7 +21,6 @@ public class PlayerLoader : MonoBehaviour
         return "/Player";
     }
     
-
     public enum HeadsetType {
         OVR, OpenVR, NoVR
     }

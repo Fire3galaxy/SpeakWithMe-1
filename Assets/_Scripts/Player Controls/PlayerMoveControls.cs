@@ -24,7 +24,7 @@ public class PlayerMoveControls : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        hmdType = GetComponent<PlayerLoader>().headsetType;
+        hmdType = (HeadsetType) PlayerPrefs.GetInt(PlayStyleSettings.preferenceKey);
         string cameraLocation = hmdType == HeadsetType.OVR ?    "OVRPlayerController/OVRCameraRig/" +
                                                                     "TrackingSpace/CenterEyeAnchor" :
                                 hmdType == HeadsetType.OpenVR ? "OpenVR Player/Camera" : 

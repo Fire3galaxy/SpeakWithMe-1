@@ -6,20 +6,19 @@ using Valve.VR;
 public class PlayerMicControls : MonoBehaviour {
     public int maxDuration = 10;
     
-    // FIXME: Probably should turn this into something in a settings menu
-    public int debugSelectMic = 0;
-
     SteamVR_Action_Boolean steamRecordAction;
     string micName;
     int sampleRate = 44100;
 
     public AudioClipWrapper recording {get; private set;}
 
-	// Use this for initialization
 	void Start () {
-        micName = Microphone.devices[debugSelectMic];
-        Debug.Log("Microphone is " + micName);
         steamRecordAction = SteamVR_Actions.demoControls_Record;
+
+        int micIndex = MicrophoneSettings.getPreferredDeviceIndex();
+        if (micIndex == -1) return; // FIXME: User error on screen later for this case. Shouldn't happen though.
+
+        micName = Microphone.devices[micIndex];
 	}
 
 	// Update is called once per frame
