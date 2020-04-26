@@ -9,12 +9,13 @@ class BGMVolumeSettings : MonoBehaviour, SettingsInterface
 
     void Start()
     {
+        // Object start with default value. Save this before changing value to preference.
         volumeSlider = GetComponentInChildren<Slider>();
-        defaultVolume = volumeSlider.value; // Editor determines default value.
+        defaultVolume = volumeSlider.value;
 
+        // Set slider to preference if exists. Else, save default value.
         if (PlayerPrefs.HasKey(playerPrefsKey)) 
             volumeSlider.value = PlayerPrefs.GetFloat(playerPrefsKey);
-        // Save a DEFAULT value in case user doesn't change this value.
         else 
             PlayerPrefs.SetFloat("bgmVolume", volumeSlider.value);
     }

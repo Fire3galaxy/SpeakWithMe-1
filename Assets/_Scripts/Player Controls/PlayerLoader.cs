@@ -22,6 +22,6 @@ public class PlayerLoader : MonoBehaviour
     }
     
     public enum HeadsetType {
-        OVR, OpenVR, NoVR
+        OpenVR, OVR, NoVR
     }
 }

@@ -1,5 +1,5 @@
 interface SettingsInterface
 {
-    bool validateSettings();
     void resetSettings();
+    bool validateSettings();
 }

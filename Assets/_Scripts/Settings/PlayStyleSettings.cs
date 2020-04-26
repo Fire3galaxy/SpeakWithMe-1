@@ -1,38 +1,36 @@
 using UnityEngine;
 using TMPro;
 
-class PlayStyleSettings : DropdownSettings
+class PlayStyleSettings : MonoBehaviour, SettingsInterface
 {
-    TMP_Dropdown dropdownMenu;
-
+    // Note: Assumption is that dropdown order corresponds to PlayerLoader.HeadsetType
     public static string preferenceKey = "playStyle";
-    public override string playerPrefsKey => preferenceKey;
+
+    TMP_Dropdown dropdownMenu;
+    // Default value is saved in editor. Save this before changing dropdown.
+    int defaultValue;
 
     void Start()
     {
         dropdownMenu = GetComponent<TMP_Dropdown>();
-        setDropdownToPlayerPref(dropdownMenu);
+        defaultValue = dropdownMenu.value;
+        dropdownMenu.value = PlayerPrefs.GetInt(preferenceKey, defaultValue);
+        PlayerPrefs.SetInt(preferenceKey, dropdownMenu.value);
     }
 
-    protected override void setDropdownToPlayerPref(TMP_Dropdown dropdownMenu)
+    public void onValueChanged(int value)
     {
-        if (!PlayerPrefs.HasKey(playerPrefsKey)) return;
-
-        dropdownMenu.value = PlayerPrefs.GetInt(playerPrefsKey, -1) + 1;
+        PlayerPrefs.SetInt(preferenceKey, value);
     }
 
-    public override void onValueChanged(int value)
+    public void resetSettings()
     {
-        // Index 0 is "Select an option..." option.
-        if (value == 0) return;
-
-        // playStyle indices correspond to PlayerLoader.HeadsetType
-        PlayerPrefs.SetInt(playerPrefsKey, value - 1);
+        PlayerPrefs.SetInt(preferenceKey, defaultValue);
+        dropdownMenu.value = defaultValue;
     }
-
-    public override void resetSettings()
+    
+    public bool validateSettings()
     {
-        PlayerPrefs.DeleteKey(playerPrefsKey);
-        dropdownMenu.value = 0;
+        return true;
     }
 }

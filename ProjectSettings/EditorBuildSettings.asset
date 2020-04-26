@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Scenes/MainMenu.unity
+    guid: ad35cb7887035534791589261d5e2454
+  - enabled: 1
     path: Assets/_Scenes/ChineseCityDemo.unity
     guid: 733715b5b7ed0e242b2e89d1f7d20054
   m_configObjects: {}

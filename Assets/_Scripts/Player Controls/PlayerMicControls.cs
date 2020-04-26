@@ -15,7 +15,7 @@ public class PlayerMicControls : MonoBehaviour {
 	void Start () {
         steamRecordAction = SteamVR_Actions.demoControls_Record;
 
-        int micIndex = MicrophoneSettings.getPreferredDeviceIndex();
+        int micIndex = MicrophoneSettings.playerPrefsMicrophoneNameToMicrophoneDevicesIndex(PlayerPrefs.GetString(MicrophoneSettings.preferenceKey, ""));
         if (micIndex == -1) return; // FIXME: User error on screen later for this case. Shouldn't happen though.
 
         micName = Microphone.devices[micIndex];
