@@ -11,8 +11,8 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
     readonly List<string> defaultDropdownValues = new List<string>(new string[]{"No Microphone Detected!"});
     float elapsedTime = 0f;
     float updateMenuFrequency = 1f;
-    int defaultMicIndex = 0;
 
+    // Initialize values for dropdown menu with microphone devices or error message
     void Start()
     {
         dropdownMenu = GetComponent<TMP_Dropdown>();
@@ -21,6 +21,8 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
         // Failure case: no microphone available
         if (Microphone.devices.Length == 0) 
         {
+            // Note: explicitly not clearing PlayerPrefs in this case. The player
+            // may just have forgotten to plug his mic in.
             dropdownMenu.AddOptions(defaultDropdownValues);
             dropdownMenu.value = 0;
             dropdownMenu.interactable = false;
@@ -29,13 +31,18 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
 
         cachedMicDevices = new HashSet<string>(Microphone.devices);
         dropdownMenu.AddOptions(new List<string>(cachedMicDevices));
+        dropdownMenu.interactable = true;
+
         int micIndex = playerPrefsMicrophoneNameToMicrophoneDevicesIndex();
 
         // Edge failure case: preferred mic isn't available. Go with 0 as default.
         if (micIndex < 0)
         {
-            dropdownMenu.value = defaultMicIndex;
-            PlayerPrefs.SetString(preferenceKey, dropdownMenu.options[micIndex].text);
+            // Note: Changing preference here to follow the philosophy of "Let the
+            // player start the game asap". They likely only have one mic plugged in
+            // anyway.
+            dropdownMenu.value = 0;
+            PlayerPrefs.SetString(preferenceKey, dropdownMenu.options[0].text);
         }
         // Success case: devices available. Preferred mic is available.
         else
@@ -44,6 +51,7 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
         }
     }
 
+    // Once per second, update dropdown menu based on available microphone device list changes
     void Update()
     {
         // Don't check mic array every frame. Check based on set update frequecy.
@@ -75,12 +83,7 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
         dropdownMenu.interactable = true;
         cachedMicDevices = latestSet;
 
-        // See if index of mic has changed. If so, adjust dropdownMenu.value.
-        if (dropdownMenu.options[dropdownMenu.value].text == currentMic) 
-        {
-            PlayerPrefs.SetString()
-            return;
-        }
+        // Find index for current microphone
         for (int i = 0; i < dropdownMenu.options.Count; i++)
         {
             if (dropdownMenu.options[i].text == currentMic)
@@ -91,19 +94,13 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
         }
     }
 
-    protected override void setDropdownToPlayerPref(TMP_Dropdown dropdownMenu)
-    {
-        int micSettingIndex = playerPrefsMicrophoneNameToMicrophoneDevicesIndex();
-        dropdownMenu.value = micSettingIndex == -1 ? 0 : micSettingIndex + 1;
-    }
-
-    public override void onValueChanged(int value)
+    public void onValueChanged(int value)
     {
         if (value == 0) return;
-        PlayerPrefs.SetString(preferenceKey, Microphone.devices[value - 1]);
+        PlayerPrefs.SetString(preferenceKey, Microphone.devices[value]);
     }
 
-    public override void resetSettings()
+    public void resetSettings()
     {
         PlayerPrefs.DeleteKey(preferenceKey);
         dropdownMenu.value = 0;
@@ -126,12 +123,13 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
             }
         }
 
-        // Microphone not in current set of devices
-        return -2;  // differentiates from lack of key error
+        // Microphone not in current set of devices. The differentiating of error code
+        // is admittedly entirely unnecessary, but it's no harm either.
+        return -2;
     }
 
     public bool validateSettings()
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 }
