@@ -28,12 +28,12 @@ class BGMVolumeSettings : MonoBehaviour, SettingsInterface
 
     public bool validateSettings()
     {
-        return true; // PlayerPrefs should already have bgmVolume due to Start()
+        return true; // this assumes there's never a case where PlayerPrefs isn't set.
     }
 
     public void resetSettings()
     {
-        PlayerPrefs.DeleteKey(playerPrefsKey);
+        PlayerPrefs.SetFloat(playerPrefsKey, defaultVolume);
         volumeSlider.value = defaultVolume;
     }
 }

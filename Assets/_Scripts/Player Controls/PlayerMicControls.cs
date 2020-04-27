@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using Valve.VR;
 
 // Stores the audio clip for a single object, starts/stops recording
@@ -9,31 +10,28 @@ public class PlayerMicControls : MonoBehaviour {
     SteamVR_Action_Boolean steamRecordAction;
     string micName;
     int sampleRate = 44100;
+    float elapsedTime = 0f;
+    float refreshMicListFrequency = 2f;
 
     public AudioClipWrapper recording {get; private set;}
 
 	void Start () {
         steamRecordAction = SteamVR_Actions.demoControls_Record;
-
-        int micIndex = MicrophoneSettings.playerPrefsMicrophoneNameToMicrophoneDevicesIndex();
-        if (micIndex == -1) return; // FIXME: User error on screen later for this case. Shouldn't happen though.
-
-        micName = Microphone.devices[micIndex];
+        // Throws an error if playerPref isn't set. Should be guaranteed by MicrophoneSettings
+        micName = PlayerPrefs.GetString(MicrophoneSettings.preferenceKey);
+        handleMicUpdate();
 	}
 
 	// Update is called once per frame
 	void Update () {
-        // Below code handles pressing the record button
-        if (!recordButtonPressed()) return;
+        elapsedTime += Time.deltaTime;
+        if (elapsedTime > refreshMicListFrequency) 
+        {
+            elapsedTime = 0f;
+            handleMicUpdate();
+        }
 
-        if (isRecording())
-        {
-            StopRecording(); 
-        }
-        else
-        {
-            StartRecording();
-        }
+        handleRecordButtonUpdate();
 	}
     
     public void StartRecording() {
@@ -58,6 +56,46 @@ public class PlayerMicControls : MonoBehaviour {
         return OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.Remote) ||
                Input.GetKeyDown("space") ||
                steamRecordAction.stateDown;
+    }
+
+    void handleMicUpdate()
+    {
+        if (Microphone.devices.Length == 0)
+        {
+            Debug.LogError("No microphone available. Sending back to settings.");
+            SceneManager.LoadScene(0);
+            return;
+        }
+
+        // Make sure preferred mic is in current list of microphone devices
+        for (int i = 0; i < Microphone.devices.Length; i++)
+        {
+            if (Microphone.devices[i] == micName)
+            {
+                return;
+            }
+        }
+
+        // Preferred mic isn't available now. Go with first available microphone and tell user.
+        // FIXME: GUI way to tell user which mic we're using.
+        Debug.LogWarning("Preferred microphone " + micName + " not available. " + 
+                         "Going with first device " + Microphone.devices[0]);
+        micName = Microphone.devices[0];
+        PlayerPrefs.SetString(MicrophoneSettings.preferenceKey, micName);
+    }
+
+    void handleRecordButtonUpdate()
+    {
+        if (!recordButtonPressed()) return;
+
+        if (isRecording())
+        {
+            StopRecording(); 
+        }
+        else
+        {
+            StartRecording();
+        }
     }
 
     public class AudioClipWrapper

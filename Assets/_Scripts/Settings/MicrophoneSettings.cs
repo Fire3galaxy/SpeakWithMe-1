@@ -7,7 +7,7 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
     public static string preferenceKey = "microphone";
 
     TMP_Dropdown dropdownMenu;
-    HashSet<string> cachedMicDevices;
+    SortedSet<string> cachedMicDevices = new SortedSet<string>();
     readonly List<string> defaultDropdownValues = new List<string>(new string[]{"No Microphone Detected!"});
     float elapsedTime = 0f;
     float updateMenuFrequency = 1f;
@@ -18,37 +18,8 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
         dropdownMenu = GetComponent<TMP_Dropdown>();
         dropdownMenu.ClearOptions();
 
-        // Failure case: no microphone available
-        if (Microphone.devices.Length == 0) 
-        {
-            // Note: explicitly not clearing PlayerPrefs in this case. The player
-            // may just have forgotten to plug his mic in.
-            dropdownMenu.AddOptions(defaultDropdownValues);
-            dropdownMenu.value = 0;
-            dropdownMenu.interactable = false;
-            return;
-        }
-
-        cachedMicDevices = new HashSet<string>(Microphone.devices);
-        dropdownMenu.AddOptions(new List<string>(cachedMicDevices));
-        dropdownMenu.interactable = true;
-
-        int micIndex = playerPrefsMicrophoneNameToMicrophoneDevicesIndex();
-
-        // Edge failure case: preferred mic isn't available. Go with 0 as default.
-        if (micIndex < 0)
-        {
-            // Note: Changing preference here to follow the philosophy of "Let the
-            // player start the game asap". They likely only have one mic plugged in
-            // anyway.
-            dropdownMenu.value = 0;
-            PlayerPrefs.SetString(preferenceKey, dropdownMenu.options[0].text);
-        }
-        // Success case: devices available. Preferred mic is available.
-        else
-        {
-            dropdownMenu.value = micIndex;
-        }
+        SortedSet<string> currentSet = new SortedSet<string>(Microphone.devices);
+        updateDropdownMenuOptions(currentSet);
     }
 
     // Once per second, update dropdown menu based on available microphone device list changes
@@ -62,36 +33,8 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
         elapsedTime = 0f;
 
         // Determine if latest list of devices matches the previous.
-        HashSet<string> latestSet = new HashSet<string>(Microphone.devices);
-        if (latestSet.SetEquals(cachedMicDevices)) return; // No change.
-
-        // Device list has changed. Update dropdown menu to newest list of microphones.
-        string currentMic = dropdownMenu.options[dropdownMenu.value].text;
-        dropdownMenu.ClearOptions();
-        
-        // The cached list was definitely not empty, but the latest list is. Update and disable dropdown.
-        if (latestSet.Count == 0)
-        {
-            dropdownMenu.AddOptions(defaultDropdownValues);
-            dropdownMenu.value = 0;
-            dropdownMenu.interactable = false;
-            return;
-        }
-
-        // The latest list contains ready devices. Update options.
-        dropdownMenu.AddOptions(new List<string>(latestSet));
-        dropdownMenu.interactable = true;
-        cachedMicDevices = latestSet;
-
-        // Find index for current microphone
-        for (int i = 0; i < dropdownMenu.options.Count; i++)
-        {
-            if (dropdownMenu.options[i].text == currentMic)
-            {
-                dropdownMenu.value = i;
-                break;
-            }
-        }
+        SortedSet<string> latestSet = new SortedSet<string>(Microphone.devices);
+        if (!latestSet.SetEquals(cachedMicDevices)) updateDropdownMenuOptions(latestSet);
     }
 
     public void onValueChanged(int value)
@@ -106,30 +49,55 @@ class MicrophoneSettings : MonoBehaviour, SettingsInterface
         dropdownMenu.value = 0;
     }
 
-    // Name is horrifically long, but has a simple function and is a discrete task. Oh well.
-    public static int playerPrefsMicrophoneNameToMicrophoneDevicesIndex()
+    void updateDropdownMenuOptions(SortedSet<string> latestSet)
     {
-        // No preference
-        if (!PlayerPrefs.HasKey(preferenceKey)) return -1;
-
-        string micName = PlayerPrefs.GetString(preferenceKey);
-        string[] devices = Microphone.devices;
-
-        for (int i = 0; i < devices.Length; i++)
+        // Device list has changed. Update dropdown menu to newest list of microphones.
+        dropdownMenu.ClearOptions();
+        cachedMicDevices = latestSet;
+        
+        // The cached list was definitely not empty, but the latest list is. Update and disable dropdown.
+        if (latestSet.Count == 0)
         {
-            if (devices[i].Equals(micName))
+            dropdownMenu.AddOptions(defaultDropdownValues);
+            dropdownMenu.value = 0;
+            dropdownMenu.interactable = false;
+            return;
+        }
+
+        // The latest list contains ready devices. Update options.
+        dropdownMenu.AddOptions(new List<string>(cachedMicDevices));
+        dropdownMenu.interactable = true;
+
+        string savedMicName = PlayerPrefs.GetString(preferenceKey, "");
+        int micIndex = -1;
+        for (int i = 0; i < dropdownMenu.options.Count; i++)
+        {
+            if (dropdownMenu.options[i].text == savedMicName)
             {
-                return i;
+                micIndex = i;
             }
         }
 
-        // Microphone not in current set of devices. The differentiating of error code
-        // is admittedly entirely unnecessary, but it's no harm either.
-        return -2;
+        // Edge failure case: preferred mic isn't available. Go with 0 as default.
+        if (micIndex < 0)
+        {
+            // Note: Changing preference here to follow the philosophy of "Let the
+            // player start the game asap". They likely only have one mic plugged in
+            // anyway.
+            dropdownMenu.value = 0;
+            PlayerPrefs.SetString(preferenceKey, dropdownMenu.options[0].text);
+            return;
+        }
+
+        // Success case: devices available. Preferred mic is available.
+        dropdownMenu.value = micIndex;
     }
 
+    // Note: Settings should always be valid if microphone devices are available. Valid means
+    // that PlayerPrefs is set to an existing microphone device. If no microphone devices are
+    // available, then this setting is invalid and the user can't play the game.
     public bool validateSettings()
     {
-        return true;
+        return dropdownMenu.interactable;
     }
 }
