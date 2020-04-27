@@ -48,13 +48,18 @@ public class PlayerMoveControls : MonoBehaviour {
 
         if (hmdType == HeadsetType.NoVR)
         {
-            if (rotatingLeftNoVR()) rotateLeft(rotationSpeed);
-            if (rotatingRightNoVR()) rotateRight(rotationSpeed);
+            float xRotation = (rotatingUpNoVR() ? -rotationSpeed : 0) + 
+                              (rotatingDownNoVR() ? rotationSpeed : 0);
+            float yRotation = (rotatingRightNoVR() ? rotationSpeed : 0) + 
+                              (rotatingLeftNoVR() ? -rotationSpeed : 0);
+            rotateVerticalNoVR(xRotation);
+            rotateHorizontal(yRotation);
         }
         else
         {
-            if (rotatingLeftVR()) rotateLeft(rotationAmountPerPress);
-            if (rotatingRightVR()) rotateRight(rotationAmountPerPress);
+            float yRotation = (rotatingRightVR() ? rotationAmountPerPress : 0) + 
+                              (rotatingLeftVR() ? -rotationAmountPerPress : 0);
+            rotateHorizontal(yRotation);
         }
     }
 
@@ -68,14 +73,25 @@ public class PlayerMoveControls : MonoBehaviour {
         transform.position += -transform.forward * movementSpeed;
     }
 
-    void rotateLeft(float rotationAmount)
+    void rotateHorizontal(float rotationAmount)
     {
-        transform.Rotate(0f, -rotationAmount, 0f);
+        transform.Rotate(0f, rotationAmount, 0f, Space.World);
     }
 
-    void rotateRight(float rotationAmount)
+    void rotateVerticalNoVR(float rotationAmount)
     {
-        transform.Rotate(0f, rotationAmount, 0f);
+        // localEulerAngles uses [0,360f) instead of negatives, which I need for the formula below.
+        float adjustedLocalXRotation = hmdTransform.localEulerAngles.x;
+        if (adjustedLocalXRotation > 90f) adjustedLocalXRotation = adjustedLocalXRotation - 360f;
+
+        // Clamp to 90 degrees above and below player (no upside down)
+        float clampedRotationAmount = Mathf.Clamp(rotationAmount, 
+                                                  -90f - adjustedLocalXRotation, 
+                                                  90f - adjustedLocalXRotation);
+
+        // Rotates the camera rather than the Player object. Don't do this with VR.
+        // Benefit is that transform.forward stays aligned on the XZ plane
+        hmdTransform.Rotate(clampedRotationAmount, 0f, 0f, Space.Self);
     }
     
     void moveWithJoystick(Vector2 axis)
@@ -108,9 +124,9 @@ public class PlayerMoveControls : MonoBehaviour {
                movingBackwardsJoystick();
     }
 
-    public bool rotatingRightNoVR()
+    public bool rotatingLeftVR()
     {
-        return Input.GetKey(KeyCode.RightArrow) || steamRotateRightAction.state;
+        return Input.GetKeyDown(KeyCode.LeftArrow) || steamRotateLeftAction.stateDown;
     }
 
     public bool rotatingRightVR()
@@ -120,12 +136,22 @@ public class PlayerMoveControls : MonoBehaviour {
 
     public bool rotatingLeftNoVR()
     {
-        return Input.GetKey(KeyCode.LeftArrow) || steamRotateLeftAction.state;
+        return Input.GetKey(KeyCode.A) || steamRotateLeftAction.state;
     }
 
-    public bool rotatingLeftVR()
+    public bool rotatingRightNoVR()
     {
-        return Input.GetKeyDown(KeyCode.LeftArrow) || steamRotateLeftAction.stateDown;
+        return Input.GetKey(KeyCode.D) || steamRotateRightAction.state;
+    }
+
+    public bool rotatingUpNoVR()
+    {
+        return Input.GetKey(KeyCode.W);
+    }
+
+    public bool rotatingDownNoVR()
+    {
+        return Input.GetKey(KeyCode.S);
     }
 
     bool joystickExceedsThreshold()
