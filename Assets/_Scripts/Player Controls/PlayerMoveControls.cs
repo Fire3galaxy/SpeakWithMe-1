@@ -6,14 +6,21 @@ using HeadsetType = PlayerLoader.HeadsetType;
 public class PlayerMoveControls : MonoBehaviour {
     [Tooltip("For VR and non-VR")]
     public float movementSpeed = .02f;
-    [Tooltip("For VR")]
+    [Tooltip("For VR, Degrees per button press")]
     [Range(0f, 360f)]
-    public float rotationAmountPerPress = 15f;
-    [Tooltip("For non-VR")]
-    [Range(0f, 15f)]
-    public float rotationSpeed = 1.7f;
+    public float rotationAmountPerPressVR = 15f;
+    [Tooltip("For non-VR, Degrees per second")]
+    [Range(0f, 360f)]
+    public float rotationSpeedForDPadNonVR = 1.7f;
+    [Tooltip("For non-VR. Degrees per pixel, which is used for rotation speed. For example, " +
+             "setting this to .25 would mean 4 pixels of mouse movement equals 1 degree of " +
+             "rotation per second.")]
+    [Range(0f, 360f)]
+    public float degreesPerPixelRotationSpeed = .25f;
+
 
     float joystickThreshold = .2f;
+    float mouseThreshold = 5f;
     SteamVR_Action_Boolean steamForwardAction;
     SteamVR_Action_Boolean steamBackwardAction;
     SteamVR_Action_Boolean steamRotateLeftAction;
@@ -21,6 +28,8 @@ public class PlayerMoveControls : MonoBehaviour {
     SteamVR_Action_Vector2 steamMoveJoystick;
     Transform hmdTransform;
     HeadsetType hmdType;
+    Vector3 lastMousePosition;
+    Vector3 mousePositionDelta;
 
 	// Use this for initialization
 	void Start () {
@@ -37,7 +46,7 @@ public class PlayerMoveControls : MonoBehaviour {
         steamMoveJoystick = SteamVR_Actions.demoControls_Move;
 	}
 	
-	void FixedUpdate () {
+	void Update () {
         // JOYSTICK CONTROLS
         if (joystickExceedsThreshold()) moveWithJoystick(steamMoveJoystick.axis);
 
@@ -48,29 +57,44 @@ public class PlayerMoveControls : MonoBehaviour {
 
         if (hmdType == HeadsetType.NoVR)
         {
-            float xRotation = (rotatingUpNoVR() ? -rotationSpeed : 0) + 
-                              (rotatingDownNoVR() ? rotationSpeed : 0);
-            float yRotation = (rotatingRightNoVR() ? rotationSpeed : 0) + 
-                              (rotatingLeftNoVR() ? -rotationSpeed : 0);
+            // Calculate the delta before calling rotating(Up/Down/Left/Right)
+            // because those functions don't calculate delta (to avoid repeat calculations)
+            updateMouseDelta();
+
+            if (rotatingUpNoVRWithMouse() || rotatingDownNoVRWithMouse())
+            {
+                rotateVerticalNoVR(-mousePositionDelta.y * degreesPerPixelRotationSpeed * Time.deltaTime);
+            }
+
+            if (rotatingLeftNoVRWithMouse() || rotatingRightNoVRWithMouse())
+            {
+                rotateHorizontal(mousePositionDelta.x * degreesPerPixelRotationSpeed * Time.deltaTime);
+            }
+
+            float xRotation = (rotatingUpNoVRWithButtons()    ? -rotationSpeedForDPadNonVR * Time.deltaTime : 0) + 
+                              (rotatingDownNoVRWithButtons()  ?  rotationSpeedForDPadNonVR * Time.deltaTime : 0);
+            float yRotation = (rotatingRightNoVRWithButtons() ?  rotationSpeedForDPadNonVR * Time.deltaTime : 0) + 
+                              (rotatingLeftNoVRWithButtons()  ? -rotationSpeedForDPadNonVR * Time.deltaTime : 0);
             rotateVerticalNoVR(xRotation);
             rotateHorizontal(yRotation);
+
         }
         else
         {
-            float yRotation = (rotatingRightVR() ? rotationAmountPerPress : 0) + 
-                              (rotatingLeftVR() ? -rotationAmountPerPress : 0);
+            float yRotation = (rotatingRightVR() ? rotationAmountPerPressVR : 0) + 
+                              (rotatingLeftVR() ? -rotationAmountPerPressVR : 0);
             rotateHorizontal(yRotation);
         }
     }
 
     void moveForward()
     {
-        transform.position += transform.forward * movementSpeed;
+        transform.position += transform.forward * movementSpeed * Time.deltaTime;
     }
 
     void moveBackward()
     {
-        transform.position += -transform.forward * movementSpeed;
+        transform.position += -transform.forward * movementSpeed * Time.deltaTime;
     }
 
     void rotateHorizontal(float rotationAmount)
@@ -101,11 +125,30 @@ public class PlayerMoveControls : MonoBehaviour {
         float sinRot = Mathf.Sin(playerYRotation);
 
         Vector3 positionDelta = new Vector3(
-                movementSpeed * (axis.x * cosRot + axis.y * sinRot),
+                movementSpeed * Time.deltaTime * (axis.x * cosRot + axis.y * sinRot),
                 0f,
-                movementSpeed * (-axis.x * sinRot + axis.y * cosRot)
+                movementSpeed * Time.deltaTime * (-axis.x * sinRot + axis.y * cosRot)
             );
         transform.position += positionDelta;
+    }
+
+    void updateMouseDelta()
+    {
+        if (!(Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) || 
+                !(mousePositionIsOnScreen(Input.mousePosition) || mousePositionIsOnScreen(lastMousePosition))) {
+            mousePositionDelta = Vector3.zero;
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0)) {
+            lastMousePosition = Input.mousePosition;
+        }
+
+        mousePositionDelta = Input.mousePosition - lastMousePosition;
+
+        if (mousePositionDelta.magnitude < mouseThreshold) {
+            mousePositionDelta = Vector3.zero;
+        }
     }
 
     public bool movingForward()
@@ -124,42 +167,6 @@ public class PlayerMoveControls : MonoBehaviour {
                movingBackwardsJoystick();
     }
 
-    public bool rotatingLeftVR()
-    {
-        return Input.GetKeyDown(KeyCode.LeftArrow) || steamRotateLeftAction.stateDown;
-    }
-
-    public bool rotatingRightVR()
-    {
-        return Input.GetKeyDown(KeyCode.RightArrow) || steamRotateRightAction.stateDown;
-    }
-
-    public bool rotatingLeftNoVR()
-    {
-        return Input.GetKey(KeyCode.A) || steamRotateLeftAction.state;
-    }
-
-    public bool rotatingRightNoVR()
-    {
-        return Input.GetKey(KeyCode.D) || steamRotateRightAction.state;
-    }
-
-    public bool rotatingUpNoVR()
-    {
-        return Input.GetKey(KeyCode.W);
-    }
-
-    public bool rotatingDownNoVR()
-    {
-        return Input.GetKey(KeyCode.S);
-    }
-
-    bool joystickExceedsThreshold()
-    {
-        Vector2 axis = steamMoveJoystick.axis;
-        return Mathf.Abs(axis.x) >= joystickThreshold || Mathf.Abs(axis.y) >= joystickThreshold;
-    }
-
     bool movingForwardJoystick()
     {
         return joystickExceedsThreshold() && steamMoveJoystick.axis.y > 0f;
@@ -168,5 +175,67 @@ public class PlayerMoveControls : MonoBehaviour {
     bool movingBackwardsJoystick()
     {
         return joystickExceedsThreshold() && steamMoveJoystick.axis.y < 0f;
+    }
+
+    bool rotatingLeftVR()
+    {
+        return Input.GetKeyDown(KeyCode.LeftArrow) || steamRotateLeftAction.stateDown;
+    }
+
+    bool rotatingRightVR()
+    {
+        return Input.GetKeyDown(KeyCode.RightArrow) || steamRotateRightAction.stateDown;
+    }
+
+    bool rotatingLeftNoVRWithButtons()
+    {
+        return Input.GetKey(KeyCode.A) || steamRotateLeftAction.state;
+    }
+
+    bool rotatingRightNoVRWithButtons()
+    {
+        return Input.GetKey(KeyCode.D) || steamRotateRightAction.state;
+    }
+
+    bool rotatingUpNoVRWithButtons()
+    {
+        return Input.GetKey(KeyCode.W);
+    }
+
+    bool rotatingDownNoVRWithButtons()
+    {
+        return Input.GetKey(KeyCode.S);
+    }
+
+    bool rotatingRightNoVRWithMouse()
+    {
+        return mousePositionDelta.x > 0f;
+    }
+
+    bool rotatingLeftNoVRWithMouse()
+    {
+        return mousePositionDelta.x < 0f;
+    }
+
+    bool rotatingUpNoVRWithMouse()
+    {
+        return mousePositionDelta.y > 0f;
+    }
+
+    bool rotatingDownNoVRWithMouse()
+    {
+        return mousePositionDelta.y < 0f;
+    }
+
+    bool mousePositionIsOnScreen(Vector3 position)
+    {
+        return position.x >= 0f && position.x <= Screen.width && 
+               position.y >= 0f && position.y <= Screen.height;
+    }
+
+    bool joystickExceedsThreshold()
+    {
+        Vector2 axis = steamMoveJoystick.axis;
+        return Mathf.Abs(axis.x) >= joystickThreshold || Mathf.Abs(axis.y) >= joystickThreshold;
     }
 }

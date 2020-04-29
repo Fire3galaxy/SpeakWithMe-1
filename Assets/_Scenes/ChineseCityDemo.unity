@@ -2239,7 +2239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a500124bebabfe84994a69e13386b7e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headsetType: 2
   OVRHeadsetPrefab: {fileID: 3243489411076407976, guid: 30aea613d6fe73941bacbddc83578003,
     type: 3}
   OpenVRHeadsetPrefab: {fileID: 7944197189140800204, guid: 4d3662547563d5f40b4c488361d69efc,
@@ -2270,9 +2269,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f138097e84911944eb6aedd5b4da2280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 0.02
-  rotationAmountPerPress: 15
-  rotationSpeed: 1.7
+  movementSpeed: 0.8
+  rotationAmountPerPressVR: 15
+  rotationSpeedForDPadNonVR: 100
+  degreesPerPixelRotationSpeed: 0.175
 --- !u!114 &1322257913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2400,7 +2400,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.41
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4327,6 +4327,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1322257915}
     m_Modifications:
+    - target: {fileID: 938417040509679440, guid: 5504882a54b9888499199fc23be7fd77,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 938417040509679442, guid: 5504882a54b9888499199fc23be7fd77,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4380,6 +4385,11 @@ PrefabInstance:
     - target: {fileID: 938417040509679442, guid: 5504882a54b9888499199fc23be7fd77,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 938417040509679443, guid: 5504882a54b9888499199fc23be7fd77,
+        type: 3}
+      propertyPath: m_Volume
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 938417040509679453, guid: 5504882a54b9888499199fc23be7fd77,
