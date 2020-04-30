@@ -14,14 +14,14 @@ public class PlayerDialogueControls : MonoBehaviour {
     public bool playRecordingButtonPressed()
     {
         return OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.Remote) || 
-               Input.GetKeyDown("l") ||
+               Input.GetKeyDown(KeyCode.P) ||
                steamPlayRecordingButton.stateDown;
     }
 
     public bool nextDialogueButtonPressed()
     {
         return OVRInput.GetDown(OVRInput.Button.DpadRight, OVRInput.Controller.Remote) || 
-               Input.GetKeyDown(KeyCode.RightArrow) ||
+               Input.GetKeyDown(KeyCode.N) ||
                steamNextDialogueButton.stateDown;
     }
 }

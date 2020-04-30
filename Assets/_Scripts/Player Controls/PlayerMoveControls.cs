@@ -31,7 +31,6 @@ public class PlayerMoveControls : MonoBehaviour {
     Vector3 lastMousePosition;
     Vector3 mousePositionDelta;
 
-	// Use this for initialization
 	void Start () {
         hmdType = (HeadsetType) PlayerPrefs.GetInt(PlayStyleSettings.preferenceKey);
         string cameraLocation = hmdType == HeadsetType.OVR ?    "OVRPlayerController/OVRCameraRig/" +

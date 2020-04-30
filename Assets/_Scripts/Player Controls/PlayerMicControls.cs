@@ -54,7 +54,7 @@ public class PlayerMicControls : MonoBehaviour {
 
     public bool recordButtonPressed() {
         return OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.Remote) ||
-               Input.GetKeyDown("space") ||
+               Input.GetKeyDown(KeyCode.R) ||
                steamRecordAction.stateDown;
     }
 

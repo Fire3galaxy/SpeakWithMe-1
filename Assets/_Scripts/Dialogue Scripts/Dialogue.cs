@@ -28,7 +28,6 @@ public abstract class Dialogue : MonoBehaviour {
         if ((isPlaying && !narratorAudio.isPlaying) || endOfDialogue)
         {
             scriptLine++;
-            Debug.Log("In here? " + scriptLine);
             isPlaying = false;
             endOfDialogue = false;
             caller.OnClipFinished();
@@ -45,13 +44,9 @@ public abstract class Dialogue : MonoBehaviour {
         textContainer.text = scripts[scriptLine];
         textContainer.gameObject.SetActive(true);
 
-        Debug.Log("Here");
-
         isPlaying = true;
         narratorAudio.clip = clips[scriptLine];
         narratorAudio.Play();
-
-        Debug.Log("Player audio: " + narratorAudio.isPlaying);
 
         this.caller = caller;
     }
