@@ -18,7 +18,10 @@ class SettingsToMainGameButtonLogic : MonoBehaviour
         Transform canvas = transform.Find("/Canvas");
         foreach (Transform child in canvas)
         {
-            if (child.name.StartsWith("Settings")) settingsTransforms.Add(child);
+            if (child.GetComponentInChildren<SettingsInterface>() != null) 
+            {
+                settingsTransforms.Add(child);
+            }  
         }
     }
 

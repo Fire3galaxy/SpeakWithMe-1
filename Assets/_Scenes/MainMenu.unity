@@ -2309,7 +2309,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 819871596}
         m_MethodName: onClick
         m_Mode: 1
         m_Arguments:
@@ -2935,6 +2935,75 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!1001 &1089116719
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7928390252893071784, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_Name
+      value: Narrator Audio
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928390252893071787, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8f5d187a80112624fbe4e5e52c6a8b05, type: 3}
 --- !u!1 &1113564658
 GameObject:
   m_ObjectHideFlags: 0
@@ -3771,9 +3840,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1384502109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c227a87885b93674fbd6b63f5100960d, type: 3}
+  m_Script: {fileID: 11500000, guid: c879d7b689a23a545bb19427093dc705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 0}
+  - {fileID: 8300000, guid: c4cabf7f4d2c2d441a9f3f2fdf8fd985, type: 3}
+  - {fileID: 8300000, guid: 5d532a80fb396354385d0867e79c3dd5, type: 3}
+  - {fileID: 8300000, guid: 78f43272b4498084c9f885ab4a0c7597, type: 3}
+  - {fileID: 8300000, guid: 8dd0923d1e0c24e4bb8ed99d01d82b38, type: 3}
+  - {fileID: 8300000, guid: b95c7a472f19e9f49ae2b3b72047f2a7, type: 3}
+  - {fileID: 8300000, guid: b6c71089ebe4ef744b1d622645d164b5, type: 3}
+  - {fileID: 8300000, guid: 67068db7bdd158c4c931fcb0bf68a8ed, type: 3}
+  - {fileID: 8300000, guid: 50b10a01bb5cc0944823aa7e0d96b52b, type: 3}
+  - {fileID: 8300000, guid: 20fb4e81f28be7c42913316ccefbbca7, type: 3}
 --- !u!114 &1384502112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3820,7 +3900,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.031
+  m_Value: 0.41
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
