@@ -1,6 +1,3 @@
-using UnityEngine;
-using UnityEngine.UI;
-
 class BGMVolumeSettings : VolumeSettings
 {
     static public string playerPrefsKey = "bgmVolume";
