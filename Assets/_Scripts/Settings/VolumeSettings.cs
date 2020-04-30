@@ -6,6 +6,7 @@ abstract class VolumeSettings : MonoBehaviour, SettingsInterface
     float defaultVolume;
     Slider volumeSlider;
 
+    // Base should be called if overridden
     virtual internal void Start()
     {
         // Object start with default value. Save this before changing value to preference.

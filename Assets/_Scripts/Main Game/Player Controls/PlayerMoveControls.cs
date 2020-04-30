@@ -3,7 +3,7 @@ using Valve.VR;
 
 using HeadsetType = PlayerLoader.HeadsetType;
 
-public class PlayerMoveControls : MonoBehaviour {
+public class PlayerMoveControls : MonoBehaviour, PlayerLoader.HeadsetChangeListener {
     [Tooltip("For VR and non-VR")]
     public float movementSpeed = .02f;
     [Tooltip("For VR, Degrees per button press")]
@@ -18,7 +18,6 @@ public class PlayerMoveControls : MonoBehaviour {
     [Range(0f, 360f)]
     public float degreesPerPixelRotationSpeed = .25f;
 
-
     float joystickThreshold = .2f;
     float mouseThreshold = 5f;
     SteamVR_Action_Boolean steamForwardAction;
@@ -26,18 +25,21 @@ public class PlayerMoveControls : MonoBehaviour {
     SteamVR_Action_Boolean steamRotateLeftAction;
     SteamVR_Action_Boolean steamRotateRightAction;
     SteamVR_Action_Vector2 steamMoveJoystick;
-    Transform hmdTransform;
-    HeadsetType hmdType;
     Vector3 lastMousePosition;
     Vector3 mousePositionDelta;
 
+    // Provided by PlayerLoader in callback
+    Transform hmdTransform = null;
+    HeadsetType hmdType = HeadsetType.ValueNotSet;
+
+    void Awake()
+    {
+        // PlayerLoader loads the headset at start. We need to be registered before Start().
+        PlayerLoader loader = GetComponent<PlayerLoader>();
+        loader.addListener(this);
+    }
+
 	void Start () {
-        hmdType = (HeadsetType) PlayerPrefs.GetInt(PlayStyleSettings.preferenceKey);
-        string cameraLocation = hmdType == HeadsetType.OVR ?    "OVRPlayerController/OVRCameraRig/" +
-                                                                    "TrackingSpace/CenterEyeAnchor" :
-                                hmdType == HeadsetType.OpenVR ? "OpenVR Player/Camera" :
-                                                                "Standard Camera";
-        hmdTransform = transform.Find(cameraLocation);
         steamForwardAction = SteamVR_Actions.demoControls_MoveForward;
         steamBackwardAction = SteamVR_Actions.demoControls_MoveBackward;
         steamRotateLeftAction = SteamVR_Actions.demoControls_RotateLeft;
@@ -46,16 +48,20 @@ public class PlayerMoveControls : MonoBehaviour {
 	}
 
 	void Update () {
+        // Camera can be reloaded due to settings change. Avoid action during these rare frames.
+        if (hmdTransform == null || hmdType == HeadsetType.ValueNotSet) return;
+
         // JOYSTICK CONTROLS
         if (movingForwardJoystick() || movingBackwardsJoystick() ||
                 movingLeftJoystick() || movingRightJoystick())
             moveWithJoystick(steamMoveJoystick.axis);
 
-        // DPAD CONTROLS
+        // D-PAD CONTROLS
         // Don't count joystick twice for motion
         if (movingForward() && !movingForwardJoystick()) moveForward();
         if (movingBackward() && !movingBackwardsJoystick()) moveBackward();
 
+        // Rotating Camera (Mouse, D-pad, or Keyboard)
         if (hmdType == HeadsetType.NoVR)
         {
             // Calculate the delta before calling rotating(Up/Down/Left/Right)
@@ -153,6 +159,7 @@ public class PlayerMoveControls : MonoBehaviour {
 
     public bool movingForward()
     {
+        // FIXME: Null exceptions happening here with Steam variables.
         return OVRInput.Get(OVRInput.Button.DpadUp, OVRInput.Controller.Remote) ||
                Input.GetKey(KeyCode.UpArrow) ||
                steamForwardAction.state ||
@@ -241,5 +248,31 @@ public class PlayerMoveControls : MonoBehaviour {
     {
         return position.x >= 0f && position.x <= Screen.width &&
                position.y >= 0f && position.y <= Screen.height;
+    }
+
+    public void onRemoveHeadset(HeadsetType headsetType)
+    {
+        hmdType = HeadsetType.ValueNotSet;
+        hmdTransform = null;
+    }
+
+    public void onLoadHeadset(HeadsetType headsetType, GameObject hmdObject)
+    {
+        hmdType = headsetType;
+        switch (headsetType)
+        {
+            case HeadsetType.NoVR:
+                hmdTransform = hmdObject.transform;
+                break;
+            case HeadsetType.OpenVR:
+                hmdTransform = hmdObject.transform.Find("Camera");
+                break;
+            case HeadsetType.OVR:
+                hmdTransform = hmdObject.transform.Find("OVRCameraRig/TrackingSpace/CenterEyeAnchor");
+                break;
+            default:
+                Debug.LogError("Unsupported headset type " + headsetType);
+                break;
+        }
     }
 }

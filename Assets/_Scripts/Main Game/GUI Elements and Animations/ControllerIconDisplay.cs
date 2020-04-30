@@ -24,7 +24,6 @@ public class ControllerIconDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("DANIEL: " + PlayerLoader.playerPath());
         Transform player = transform.Find(PlayerLoader.playerPath());
         playerMic = player.GetComponent<PlayerMicControls>();
         narratorAudio = player.Find("Narrator Audio").GetComponent<AudioSource>();
@@ -52,6 +51,6 @@ public class ControllerIconDisplay : MonoBehaviour
         }
 
         recordingIconBlinker.enabled = playerMic.isRecording();
-        playingIconBlinker.enabled = /*narratorAudio.isPlaying ||*/ playerAudio.isPlaying;
+        playingIconBlinker.enabled = playerAudio.isPlaying;
     }
 }

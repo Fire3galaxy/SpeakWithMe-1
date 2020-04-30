@@ -8,11 +8,13 @@ class NarratorVolumeSettings : VolumeSettings
     public AudioClip[] audioClips;
 
     AudioSource narratorAudioSource;
+    bool isAfterStart = false;
 
     override internal void Start()
     {
         narratorAudioSource = transform.Find("/Narrator Audio").GetComponent<AudioSource>();
-        base.Start();
+        base.Start(); // changes value of dropdown, triggering onValueChanged().
+        isAfterStart = true;
     }
 
     override internal string getPlayerPrefsKey() {
@@ -21,6 +23,8 @@ class NarratorVolumeSettings : VolumeSettings
 
     override public void onValueChanged(float value)
     {
+        if (!isAfterStart) return;
+
         if (!narratorAudioSource.isPlaying)
         {
             int index = getRandomAudioIndex();

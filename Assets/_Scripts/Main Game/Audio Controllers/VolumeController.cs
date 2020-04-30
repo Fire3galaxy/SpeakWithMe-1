@@ -12,6 +12,7 @@ abstract class VolumeController : MonoBehaviour
 
     void Update()
     {
+        if (PlayerSettingsControls.paused) audioSource.Pause();
         UpdateVolume();
     }
 
