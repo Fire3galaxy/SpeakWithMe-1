@@ -36,7 +36,7 @@ public class PlayerMoveControls : MonoBehaviour {
         hmdType = (HeadsetType) PlayerPrefs.GetInt(PlayStyleSettings.preferenceKey);
         string cameraLocation = hmdType == HeadsetType.OVR ?    "OVRPlayerController/OVRCameraRig/" +
                                                                     "TrackingSpace/CenterEyeAnchor" :
-                                hmdType == HeadsetType.OpenVR ? "OpenVR Player/Camera" : 
+                                hmdType == HeadsetType.OpenVR ? "OpenVR Player/Camera" :
                                                                 "Standard Camera";
         hmdTransform = transform.Find(cameraLocation);
         steamForwardAction = SteamVR_Actions.demoControls_MoveForward;
@@ -45,10 +45,12 @@ public class PlayerMoveControls : MonoBehaviour {
         steamRotateRightAction = SteamVR_Actions.demoControls_RotateRight;
         steamMoveJoystick = SteamVR_Actions.demoControls_Move;
 	}
-	
+
 	void Update () {
         // JOYSTICK CONTROLS
-        if (joystickExceedsThreshold()) moveWithJoystick(steamMoveJoystick.axis);
+        if (movingForwardJoystick() || movingBackwardsJoystick() ||
+                movingLeftJoystick() || movingRightJoystick())
+            moveWithJoystick(steamMoveJoystick.axis);
 
         // DPAD CONTROLS
         // Don't count joystick twice for motion
@@ -71,9 +73,9 @@ public class PlayerMoveControls : MonoBehaviour {
                 rotateHorizontal(mousePositionDelta.x * degreesPerPixelRotationSpeed * Time.deltaTime);
             }
 
-            float xRotation = (rotatingUpNoVRWithButtons()    ? -rotationSpeedForDPadNonVR * Time.deltaTime : 0) + 
+            float xRotation = (rotatingUpNoVRWithButtons()    ? -rotationSpeedForDPadNonVR * Time.deltaTime : 0) +
                               (rotatingDownNoVRWithButtons()  ?  rotationSpeedForDPadNonVR * Time.deltaTime : 0);
-            float yRotation = (rotatingRightNoVRWithButtons() ?  rotationSpeedForDPadNonVR * Time.deltaTime : 0) + 
+            float yRotation = (rotatingRightNoVRWithButtons() ?  rotationSpeedForDPadNonVR * Time.deltaTime : 0) +
                               (rotatingLeftNoVRWithButtons()  ? -rotationSpeedForDPadNonVR * Time.deltaTime : 0);
             rotateVerticalNoVR(xRotation);
             rotateHorizontal(yRotation);
@@ -81,7 +83,7 @@ public class PlayerMoveControls : MonoBehaviour {
         }
         else
         {
-            float yRotation = (rotatingRightVR() ? rotationAmountPerPressVR : 0) + 
+            float yRotation = (rotatingRightVR() ? rotationAmountPerPressVR : 0) +
                               (rotatingLeftVR() ? -rotationAmountPerPressVR : 0);
             rotateHorizontal(yRotation);
         }
@@ -109,15 +111,15 @@ public class PlayerMoveControls : MonoBehaviour {
         if (adjustedLocalXRotation > 90f) adjustedLocalXRotation = adjustedLocalXRotation - 360f;
 
         // Clamp to 90 degrees above and below player (no upside down)
-        float clampedRotationAmount = Mathf.Clamp(rotationAmount, 
-                                                  -90f - adjustedLocalXRotation, 
+        float clampedRotationAmount = Mathf.Clamp(rotationAmount,
+                                                  -90f - adjustedLocalXRotation,
                                                   90f - adjustedLocalXRotation);
 
         // Rotates the camera rather than the Player object. Don't do this with VR.
         // Benefit is that transform.forward stays aligned on the XZ plane
         hmdTransform.Rotate(clampedRotationAmount, 0f, 0f, Space.Self);
     }
-    
+
     void moveWithJoystick(Vector2 axis)
     {
         float playerYRotation = hmdTransform.eulerAngles.y * Mathf.Deg2Rad;
@@ -134,26 +136,25 @@ public class PlayerMoveControls : MonoBehaviour {
 
     void updateMouseDelta()
     {
-        if (!(Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) || 
-                !(mousePositionIsOnScreen(Input.mousePosition) || mousePositionIsOnScreen(lastMousePosition))) {
+        // If player has not clicked, mouse delta is 0
+        if (!(Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))) {
             mousePositionDelta = Vector3.zero;
             return;
         }
 
-        if (Input.GetMouseButtonDown(0)) {
+        // First mouse click must be within game window
+        if (Input.GetMouseButtonDown(0) && mousePositionIsOnScreen(Input.mousePosition)) {
             lastMousePosition = Input.mousePosition;
         }
 
+        // Note: Delta can include mouse position being outside of window, so long as first click
+        // is within window.
         mousePositionDelta = Input.mousePosition - lastMousePosition;
-
-        if (mousePositionDelta.magnitude < mouseThreshold) {
-            mousePositionDelta = Vector3.zero;
-        }
     }
 
     public bool movingForward()
     {
-        return OVRInput.Get(OVRInput.Button.DpadUp, OVRInput.Controller.Remote) || 
+        return OVRInput.Get(OVRInput.Button.DpadUp, OVRInput.Controller.Remote) ||
                Input.GetKey(KeyCode.UpArrow) ||
                steamForwardAction.state ||
                movingForwardJoystick();
@@ -161,7 +162,7 @@ public class PlayerMoveControls : MonoBehaviour {
 
     public bool movingBackward()
     {
-        return OVRInput.Get(OVRInput.Button.DpadDown, OVRInput.Controller.Remote) || 
+        return OVRInput.Get(OVRInput.Button.DpadDown, OVRInput.Controller.Remote) ||
                Input.GetKey(KeyCode.DownArrow) ||
                steamBackwardAction.state ||
                movingBackwardsJoystick();
@@ -169,12 +170,22 @@ public class PlayerMoveControls : MonoBehaviour {
 
     bool movingForwardJoystick()
     {
-        return joystickExceedsThreshold() && steamMoveJoystick.axis.y > 0f;
+        return steamMoveJoystick.axis.y > joystickThreshold;
     }
 
     bool movingBackwardsJoystick()
     {
-        return joystickExceedsThreshold() && steamMoveJoystick.axis.y < 0f;
+        return steamMoveJoystick.axis.y < -joystickThreshold;
+    }
+
+    bool movingLeftJoystick()
+    {
+        return steamMoveJoystick.axis.x < -joystickThreshold;
+    }
+
+    bool movingRightJoystick()
+    {
+        return steamMoveJoystick.axis.x > joystickThreshold;
     }
 
     bool rotatingLeftVR()
@@ -209,33 +220,27 @@ public class PlayerMoveControls : MonoBehaviour {
 
     bool rotatingRightNoVRWithMouse()
     {
-        return mousePositionDelta.x > 0f;
+        return mousePositionDelta.x > mouseThreshold;
     }
 
     bool rotatingLeftNoVRWithMouse()
     {
-        return mousePositionDelta.x < 0f;
+        return mousePositionDelta.x < -mouseThreshold;
     }
 
     bool rotatingUpNoVRWithMouse()
     {
-        return mousePositionDelta.y > 0f;
+        return mousePositionDelta.y > mouseThreshold;
     }
 
     bool rotatingDownNoVRWithMouse()
     {
-        return mousePositionDelta.y < 0f;
+        return mousePositionDelta.y < -mouseThreshold;
     }
 
     bool mousePositionIsOnScreen(Vector3 position)
     {
-        return position.x >= 0f && position.x <= Screen.width && 
+        return position.x >= 0f && position.x <= Screen.width &&
                position.y >= 0f && position.y <= Screen.height;
-    }
-
-    bool joystickExceedsThreshold()
-    {
-        Vector2 axis = steamMoveJoystick.axis;
-        return Mathf.Abs(axis.x) >= joystickThreshold || Mathf.Abs(axis.y) >= joystickThreshold;
     }
 }
