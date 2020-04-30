@@ -13,9 +13,10 @@ class ResetAllSettings : MonoBehaviour
     {
         foreach (Transform child in canvas)
         {
-            if (child.name.StartsWith("Settings"))
+            SettingsInterface setting = child.GetComponentInChildren<SettingsInterface>();
+            if (setting != null)
             {
-                child.GetComponentInChildren<SettingsInterface>().resetSettings();
+                setting.resetSettings();
             }
         }
         PlayerPrefs.Save();
