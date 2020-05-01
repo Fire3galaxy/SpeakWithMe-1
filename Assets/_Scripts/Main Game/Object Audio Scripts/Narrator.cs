@@ -1,39 +1,36 @@
 ﻿using UnityEngine;
 
-public class Narrator : MonoBehaviour {
+using AudioState = AudioSourceWrapper.AudioState;
+
+class Narrator : MonoBehaviour {
     public AudioClip[] narratorClips;
 
     int clipNum = 0;
     OnNarratorCompleteListener scriptLogic;
-    AudioSource narratorAudio;
-    VolumeController narratorVolumeController;
+    AudioSourceWrapper narratorAudioSourceWrapper;
     bool isPlaying = false;
 
-	// Use this for initialization
 	void Start () {
-        GameObject narratorAudioObject = GameObject.Find(PlayerLoader.playerPath() + 
-                                                         "/Narrator Audio");
-        narratorAudio = narratorAudioObject.GetComponent<AudioSource>();
-        narratorVolumeController = narratorAudioObject.GetComponent<VolumeController>();
+        narratorAudioSourceWrapper = GameObject.Find(PlayerLoader.playerPath() + "/Narrator Audio")
+                                        .GetComponent<AudioSourceWrapper>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        // Clip has ended
-		if (isPlaying && !narratorAudio.isPlaying && !PlayerSettingsControls.paused && 
-            !narratorVolumeController.pausedByPlayer)
+
+    void Update()
+    {
+        // A clip starts playing when StartNarrator() is called. This code waits for
+        // the clip to ends, then notifies the callee we're done.
+		if (isPlaying && narratorAudioSourceWrapper.currentState == AudioState.NotPlaying)
         {
             isPlaying = false;
             clipNum++;
             scriptLogic.onNarratorClipCompleted();
         }
-	}
+    }
 
     public void StartNarrator(OnNarratorCompleteListener caller)
     {
         scriptLogic = caller;
-        narratorAudio.clip = narratorClips[clipNum];
-        narratorAudio.Play();
+        narratorAudioSourceWrapper.Play(narratorClips[clipNum]);
         isPlaying = true;
     }
 

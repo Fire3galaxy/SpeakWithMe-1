@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -132,7 +133,6 @@ GameObject:
   - component: {fileID: 98195954}
   - component: {fileID: 98195953}
   - component: {fileID: 98195952}
-  - component: {fileID: 98195951}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -140,18 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &98195951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 98195950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caaa34a610279204ab37b67550936678, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &98195952
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -179,6 +167,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -250,8 +239,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693578202}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 1
+  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
@@ -329,6 +319,7 @@ GameObject:
   - component: {fileID: 1946317223}
   - component: {fileID: 1946317227}
   - component: {fileID: 1946317226}
+  - component: {fileID: 1946317228}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -411,9 +402,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 78f43272b4498084c9f885ab4a0c7597, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.302
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -510,3 +501,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDuration: 10
+--- !u!114 &1946317228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946317222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1376ea1f72368e340b8ab0da1b9c078c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseAudio: 0

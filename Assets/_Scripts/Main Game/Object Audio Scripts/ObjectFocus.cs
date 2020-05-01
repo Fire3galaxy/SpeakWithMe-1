@@ -47,6 +47,7 @@ public class ObjectFocus : MonoBehaviour, Narrator.OnNarratorCompleteListener,
         }
     }
 
+    // FIXME: Shouldn't these also kill the audio sources and reset the indices?
     private void OnTriggerExit(Collider other) 
     {
         dialogue.HideDialogue();

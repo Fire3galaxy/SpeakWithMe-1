@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 
+using AudioState = AudioSourceWrapper.AudioState;
+
 // Intro Narrator script (bind to main player)
 // Plays on start of scene
 public class IntroductionNarrator : MonoBehaviour {
     public AudioClip[] clips;
     public int debugStartingIndex = 9;
 
-    AudioSource narratorAudio, playerAudio;
-    VolumeController narratorVolumeController, playerVolumeController;
+    AudioSourceWrapper narratorAudioSourceWrapper, playerAudioSourceWrapper;
     PlayerMoveControls playerMover;
     PlayerMicControls playerMic;
     PlayerDialogueControls playerDialogueControls;
@@ -20,8 +21,8 @@ public class IntroductionNarrator : MonoBehaviour {
     // Use this for initialization
     void Start () 
     {
-        narratorAudio = transform.Find("Narrator Audio").GetComponent<AudioSource>();
-        playerAudio = transform.Find("Recordings Audio").GetComponent<AudioSource>();
+        narratorAudioSourceWrapper = transform.Find("Narrator Audio").GetComponent<AudioSourceWrapper>();
+        playerAudioSourceWrapper = transform.Find("Recordings Audio").GetComponent<AudioSourceWrapper>();
         playerMover = GetComponent<PlayerMoveControls>();
         playerMic = GetComponent<PlayerMicControls>();
         playerDialogueControls = GetComponent<PlayerDialogueControls>();
@@ -48,9 +49,8 @@ public class IntroductionNarrator : MonoBehaviour {
     void playCurrClip()
     {
         Debug.Log("Playing clip named " + clips[currClip].name);
-        playerAudio.Stop();
-        narratorAudio.clip = clips[currClip];
-        narratorAudio.Play();
+        playerAudioSourceWrapper.Stop();
+        narratorAudioSourceWrapper.Play(clips[currClip]);
         startedPlaying = true;
     }
 
@@ -63,76 +63,79 @@ public class IntroductionNarrator : MonoBehaviour {
     void playRecording()
     {
         Debug.Log("Playing recording of length " + playerMic.recording.length);
-        narratorAudio.Stop();
-        playerAudio.clip = playerMic.recording.audioClip;
-        playerAudio.PlayScheduled(AudioSettings.dspTime);
-        playerAudio.SetScheduledEndTime(AudioSettings.dspTime + playerMic.recording.length);
+        narratorAudioSourceWrapper.Stop();
+        playerAudioSourceWrapper.PlayScheduled(playerMic.recording.audioClip, 
+                                               AudioSettings.dspTime, 
+                                               playerMic.recording.length);
     }
 
 	// Update is called once per frame
 	void Update () 
     {
-        if (!narratorAudio.isPlaying && !playerAudio.isPlaying && 
-                !narratorVolumeController.pausedByPlayer && !playerVolumeController.pausedByPlayer)
+        // If audio is playing or paused, we don't advance in the script.
+        if (narratorAudioSourceWrapper.currentState != AudioState.NotPlaying || 
+                playerAudioSourceWrapper.currentState != AudioState.NotPlaying) 
+            return;
+
+        // Note: As you can see, expected order of array elements is VERY hard-coded. Keep in
+        // mind when modifying.
+        switch (currClip)
         {
-            switch (currClip)
-            {
-                // Just go to next clip once clip has played
-                case 0:
-                case 1:
-                case 8:
-                    handleClipsUpdate(true, advanceClip);
-                    break;
-                // Teaching moving forward
-                case 2:
-                    handleClipsUpdate(playerMover.movingForward(), advanceClip);
-                    break;
-                // Teaching moving backwards
-                case 3:
-                    handleClipsUpdate(playerMover.movingBackward(), 
+            // Just go to next clip once clip has played
+            case 0:
+            case 1:
+            case 8:
+                handleClipsUpdate(true, advanceClip);
+                break;
+            // Teaching moving forward
+            case 2:
+                handleClipsUpdate(playerMover.movingForward(), advanceClip);
+                break;
+            // Teaching moving backwards
+            case 3:
+                handleClipsUpdate(playerMover.movingBackward(), 
+                            advanceClip);
+                break;
+            // Teaching moving in arbitrary direction
+            case 4:
+                handleClipsUpdate(playerMover.movingBackward() || playerMover.movingForward(), 
                                 advanceClip);
-                    break;
-                // Teaching moving in arbitrary direction
-                case 4:
-                    handleClipsUpdate(playerMover.movingBackward() || playerMover.movingForward(), 
-                                 advanceClip);
-                    break;
-                // Getting first recording
-                case 5:
-                    // Ensure recording isn't in progress already due to button mashing
-                    if (!startedPlaying && playerMic.isRecording()) playerMic.StopRecording();
-                    handleClipsUpdate(playerMic.recordButtonPressed(), advanceClip);
-                    break;
-                // Waiting 3 seconds for recording
-                case 6:
-                    timePassed += Time.deltaTime;
-                    handleClipsUpdate(timePassed >= 3.0f, advanceClip);
-                    break;
-                // Stopping recording
-                case 7:
-                    handleClipsUpdate(playerMic.recordButtonPressed() || !playerMic.isRecording(), 
-                                 advanceClip);
-                    break;
-                // Playing back recording, sending player off
-                case 9:
-                    // Player's recording isn't in our array, so we treat it as a precondition
-                    // to playing the next clip.
-                    if (!playedRecording)
+                break;
+            // Getting first recording
+            case 5:
+                // Ensure recording isn't in progress already due to button mashing
+                if (!startedPlaying && playerMic.isRecording()) playerMic.StopRecording();
+                handleClipsUpdate(playerMic.recordButtonPressed(), advanceClip);
+                break;
+            // Waiting 3 seconds for recording
+            case 6:
+                timePassed += Time.deltaTime;
+                handleClipsUpdate(timePassed >= 3.0f, advanceClip);
+                break;
+            // Stopping recording
+            case 7:
+                handleClipsUpdate(playerMic.recordButtonPressed() || !playerMic.isRecording(), 
+                                advanceClip);
+                break;
+            // Playing back recording, sending player off
+            case 9:
+                // Player's recording isn't in our array, so we treat it as a precondition
+                // to playing the next clip.
+                if (!playedRecording)
+                {
+                    if (playerDialogueControls.playRecordingButtonPressed())
                     {
-                        if (playerDialogueControls.playRecordingButtonPressed())
-                        {
-                            playRecording();
-                            playedRecording = true;
-                        }
+                        playRecording();
+                        playedRecording = true;
                     }
-                    else 
-                    {
-                        handleClipsUpdate(true, advanceClip);
-                    }
-                    break;
-                default:
-                    break;
-            }
+                }
+                else 
+                {
+                    handleClipsUpdate(true, advanceClip);
+                }
+                break;
+            default:
+                break;
         }
 	}
 }
