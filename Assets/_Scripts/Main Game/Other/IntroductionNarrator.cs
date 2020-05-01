@@ -7,6 +7,7 @@ public class IntroductionNarrator : MonoBehaviour {
     public int debugStartingIndex = 9;
 
     AudioSource narratorAudio, playerAudio;
+    VolumeController narratorVolumeController, playerVolumeController;
     PlayerMoveControls playerMover;
     PlayerMicControls playerMic;
     PlayerDialogueControls playerDialogueControls;
@@ -71,7 +72,8 @@ public class IntroductionNarrator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        if (!narratorAudio.isPlaying && !playerAudio.isPlaying)
+        if (!narratorAudio.isPlaying && !playerAudio.isPlaying && 
+                !narratorVolumeController.pausedByPlayer && !playerVolumeController.pausedByPlayer)
         {
             switch (currClip)
             {

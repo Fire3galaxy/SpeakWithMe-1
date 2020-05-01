@@ -1,8 +1,6 @@
-using UnityEngine;
-
 class BGMVolumeController : VolumeController
 {
-    override internal string getPlayerPrefsKey() {
+    override protected string getPlayerPrefsKey() {
         return BGMVolumeSettings.playerPrefsKey;
     }
 }

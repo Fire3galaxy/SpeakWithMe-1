@@ -10,14 +10,14 @@ class NarratorVolumeSettings : VolumeSettings
     AudioSource narratorAudioSource;
     bool isAfterStart = false;
 
-    override internal void Start()
+    override protected void Start()
     {
         narratorAudioSource = transform.Find("/Narrator Audio").GetComponent<AudioSource>();
         base.Start(); // changes value of dropdown, triggering onValueChanged().
         isAfterStart = true;
     }
 
-    override internal string getPlayerPrefsKey() {
+    override protected string getPlayerPrefsKey() {
         return playerPrefsKey;
     }
 

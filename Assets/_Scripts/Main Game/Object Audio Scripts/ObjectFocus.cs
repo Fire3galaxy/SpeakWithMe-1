@@ -5,9 +5,10 @@ using Speaker = ScriptHolder.Speaker;
 /* ObjectFocus.cs
  * The central logic script for initiating conversation with an NPC. Runs the dialogue scripts.
  */
-public class ObjectFocus : MonoBehaviour, NarratorCallback {
+public class ObjectFocus : MonoBehaviour, Narrator.OnNarratorCompleteListener, 
+                           Dialogue.OnDialogueCompleteListener 
+{
     int scriptLine = 0;
-    public static bool PLAY_RECORDING = false;
 
     Dialogue dialogue;
     ScriptHolder scriptHolder;
@@ -17,7 +18,8 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
     AudioSource recordingsAudio;
     bool recordingStarted = false;
 
-	void Start () {
+	void Start () 
+    {
         dialogue = GetComponent<Dialogue>();
         scriptHolder = GetComponent<ScriptHolder>();
         narrator = GetComponent<Narrator>();
@@ -25,7 +27,8 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
         GameObject player = GameObject.Find(PlayerLoader.playerPath());
         playerMicControls = player.GetComponent<PlayerMicControls>();
         playerDialogueControls = player.GetComponent<PlayerDialogueControls>();
-        recordingsAudio = player.transform.Find("Recordings Audio").GetComponent<AudioSource>();
+        Transform recordingsAudioTransform = player.transform.Find("Recordings Audio");
+        recordingsAudio = recordingsAudioTransform.GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -44,7 +47,8 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
         }
     }
 
-    private void OnTriggerExit(Collider other) {
+    private void OnTriggerExit(Collider other) 
+    {
         dialogue.HideDialogue();
         if (playerMicControls.isRecording())
             playerMicControls.StopRecording();
@@ -72,7 +76,7 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
 
     void Update()
     {
-        if (scriptLine >= scriptHolder.script.Length)
+        if (scriptLine >= scriptHolder.script.Length || PlayerSettingsControls.paused)
             return;
 
         switch(scriptHolder.script[scriptLine])
@@ -94,13 +98,11 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
                 if (playerDialogueControls.playRecordingButtonPressed())
                 {
                     recordingsAudio.clip = playerMicControls.recording.audioClip;
-                    PLAY_RECORDING = true;
                     recordingsAudio.Play();
                 }
                 else if (playerDialogueControls.nextDialogueButtonPressed())
                 {
-                    if (recordingsAudio.isPlaying)
-                        recordingsAudio.Stop();
+                    recordingsAudio.Stop();
                     nextScriptLine();
                 }
                 break;
@@ -109,8 +111,12 @@ public class ObjectFocus : MonoBehaviour, NarratorCallback {
         }
     }
 
-    // When Narrator finishes
-    public void OnClipFinished()
+    public void onNarratorClipCompleted()
+    {
+        nextScriptLine();
+    }
+
+    public void onDialogueClipCompleted()
     {
         nextScriptLine();
     }

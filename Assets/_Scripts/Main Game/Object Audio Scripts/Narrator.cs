@@ -1,53 +1,44 @@
 ﻿using UnityEngine;
 
-public interface NarratorCallback
-{
-    void OnClipFinished();
-}
-
 public class Narrator : MonoBehaviour {
     public AudioClip[] narratorClips;
 
-    private int clipNum;
-    private NarratorCallback scriptLogic;
-    private AudioSource narratorAudio;
-    private float clipLength;
-    private float timePassed;
-    private bool isPlaying;
+    int clipNum = 0;
+    OnNarratorCompleteListener scriptLogic;
+    AudioSource narratorAudio;
+    VolumeController narratorVolumeController;
+    bool isPlaying = false;
 
 	// Use this for initialization
 	void Start () {
-        narratorAudio = GameObject.Find(PlayerLoader.playerPath() + "/Narrator Audio")
-                                  .GetComponent<AudioSource>();
+        GameObject narratorAudioObject = GameObject.Find(PlayerLoader.playerPath() + 
+                                                         "/Narrator Audio");
+        narratorAudio = narratorAudioObject.GetComponent<AudioSource>();
+        narratorVolumeController = narratorAudioObject.GetComponent<VolumeController>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (isPlaying)
+        // Clip has ended
+		if (isPlaying && !narratorAudio.isPlaying && !PlayerSettingsControls.paused && 
+            !narratorVolumeController.pausedByPlayer)
         {
-            timePassed += Time.deltaTime;
-
-            if (timePassed >= clipLength)
-            {
-                if (!narratorAudio.isPlaying)
-                {
-                    isPlaying = false;
-                    clipNum++;
-                    Debug.Log("clipNum" + clipNum);
-                    scriptLogic.OnClipFinished();
-                }
-            }
-
+            isPlaying = false;
+            clipNum++;
+            scriptLogic.onNarratorClipCompleted();
         }
 	}
 
-    public void StartNarrator(NarratorCallback caller)
+    public void StartNarrator(OnNarratorCompleteListener caller)
     {
         scriptLogic = caller;
         narratorAudio.clip = narratorClips[clipNum];
-        clipLength = narratorClips[clipNum].length;
         narratorAudio.Play();
-        timePassed = 0.0f;
         isPlaying = true;
+    }
+
+    public interface OnNarratorCompleteListener
+    {
+        void onNarratorClipCompleted();
     }
 }

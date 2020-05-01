@@ -1,8 +1,6 @@
-using UnityEngine;
-
 class NarratorVolumeController : VolumeController
 {
-    override internal string getPlayerPrefsKey() {
+    override protected string getPlayerPrefsKey() {
         return NarratorVolumeSettings.playerPrefsKey;
     }
 }

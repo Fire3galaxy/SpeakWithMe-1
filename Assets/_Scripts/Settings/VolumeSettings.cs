@@ -7,7 +7,7 @@ abstract class VolumeSettings : MonoBehaviour, SettingsInterface
     Slider volumeSlider;
 
     // Base should be called if overridden
-    virtual internal void Start()
+    virtual protected void Start()
     {
         // Object start with default value. Save this before changing value to preference.
         volumeSlider = GetComponentInChildren<Slider>();
@@ -37,5 +37,5 @@ abstract class VolumeSettings : MonoBehaviour, SettingsInterface
         volumeSlider.value = defaultVolume;
     }
 
-    abstract internal string getPlayerPrefsKey();
+    abstract protected string getPlayerPrefsKey();
 }

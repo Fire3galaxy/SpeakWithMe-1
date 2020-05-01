@@ -8,33 +8,35 @@ public abstract class Dialogue : MonoBehaviour {
     // Must be set by children
     protected abstract string[] scripts { get; }
 
-    private int scriptLine = 0;
-    private AudioSource narratorAudio;
-    private Text textContainer;
-    private NarratorCallback caller;
-    private bool isPlaying = false;
-    private bool endOfDialogue = false;
+    int scriptLine = 0;
+    AudioSource narratorAudio;
+    VolumeController narratorVolumeController;
+    Text textContainer;
+    OnDialogueCompleteListener caller;
+    bool isPlaying = false;
+    bool endOfDialogue = false;
 
-    // Intentionally set as private to prevent overriding by children
-    private void Start()
+    void Start()
     {
-        narratorAudio = GameObject.Find(PlayerLoader.playerPath() + "/Narrator Audio")
-                                  .GetComponent<AudioSource>();
+        GameObject narratorAudioObject = GameObject.Find(PlayerLoader.playerPath() + 
+                                                         "/Narrator Audio");
+        narratorAudio = narratorAudioObject.GetComponent<AudioSource>();
+        narratorVolumeController = narratorAudioObject.GetComponent<VolumeController>();
         textContainer = GetComponentInChildren<Text>();
     }
 
-    private void Update()
+    void Update()
     {
-        if ((isPlaying && !narratorAudio.isPlaying) || endOfDialogue)
+        if ((isPlaying && !narratorAudio.isPlaying && !narratorVolumeController.pausedByPlayer) || endOfDialogue)
         {
             scriptLine++;
             isPlaying = false;
             endOfDialogue = false;
-            caller.OnClipFinished();
+            caller.onDialogueClipCompleted();
         }
     }
 
-    public void StartDialogue(NarratorCallback caller) {
+    public void StartDialogue(OnDialogueCompleteListener caller) {
         if (scriptLine >= scripts.Length)
         {
             EndDialogue();
@@ -56,8 +58,13 @@ public abstract class Dialogue : MonoBehaviour {
     }
 
     public void EndDialogue() {
-        textContainer.gameObject.SetActive(false);
+        HideDialogue();
         scriptLine = 0;
         endOfDialogue = true;
+    }
+
+    public interface OnDialogueCompleteListener
+    {
+        void onDialogueClipCompleted();
     }
 }
