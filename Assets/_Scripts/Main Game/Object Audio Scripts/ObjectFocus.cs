@@ -57,7 +57,7 @@ public class ObjectFocus : MonoBehaviour, Narrator.OnNarratorCompleteListener,
 
     private void nextScriptLine()
     {
-        if (scriptLine++ >= scriptHolder.script.Length) return;
+        if (++scriptLine >= scriptHolder.script.Length) return;
 
         switch (scriptHolder.script[scriptLine])
         {

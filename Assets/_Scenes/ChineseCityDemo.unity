@@ -1138,6 +1138,24 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 467d0adc46c290f44abe94a117cb89bf, type: 3}
   - {fileID: 8300000, guid: 1b19ea13eebebe84090ba6715d393488, type: 3}
   - {fileID: 8300000, guid: c85c85db70371fc4ba72c25eb51fd277, type: 3}
+--- !u!1 &672450246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7928390252893071784, guid: 8f5d187a80112624fbe4e5e52c6a8b05,
+    type: 3}
+  m_PrefabInstance: {fileID: 7928390253696033593}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &672450247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672450246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f1fe6a2ecbbb4c4eb8ce1a738506abf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &693098088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1183,6 +1201,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08a52c81b7406054cb8af1055ef82813, type: 3}
+--- !u!1 &866748579 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 938417040509679453, guid: 5504882a54b9888499199fc23be7fd77,
+    type: 3}
+  m_PrefabInstance: {fileID: 938417042255197706}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &866748580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866748579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f1fe6a2ecbbb4c4eb8ce1a738506abf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &886917978
 GameObject:
   m_ObjectHideFlags: 0
@@ -2310,7 +2346,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a4b6ec6423356954fa060cb2f9a0099f, type: 3}
   - {fileID: 8300000, guid: fc171f44dfd69d74691a3affbe80aa6c, type: 3}
   - {fileID: 8300000, guid: 28b1f25f0e1222647a72c9cd76ea43a3, type: 3}
-  debugStartingIndex: 0
+  debugStartingIndex: 7
 --- !u!4 &1322257915
 Transform:
   m_ObjectHideFlags: 0
@@ -3818,6 +3854,7 @@ GameObject:
   - component: {fileID: 2041310079}
   - component: {fileID: 2041310080}
   - component: {fileID: 2041310081}
+  - component: {fileID: 2041310082}
   m_Layer: 0
   m_Name: Recordings Audio
   m_TagString: Untagged
@@ -3945,6 +3982,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58b293de3b634b44f9c47e69419fc78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2041310082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041310078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f1fe6a2ecbbb4c4eb8ce1a738506abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &2068400184
