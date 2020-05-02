@@ -1,0 +1,240 @@
+{
+    "BadMode": {
+        "AudioTracks": [
+            {
+                "name": "62.mp3",
+                "type": "Narration",
+                "index": [0]
+            },
+            {
+                "name": "64.mp3",
+                "type": "Dialogue",
+                "index": [0]
+            },
+            {
+                "name": "65.mp3",
+                "type": "Dialogue",
+                "index": [1]
+            },
+            {
+                "name": "66.mp3",
+                "type": "Dialogue",
+                "index": [2]
+            }
+        ]
+	},
+	
+    "DirectionPolice": {
+        "AudioTracks": [
+            {
+                "name": "45.mp3",
+                "type": "Dialogue",
+                "index": [0]
+            },
+            {
+                "name": "46.mp3",
+                "type": "Dialogue",
+                "index": [1]
+            },
+            {
+                "name": "47.mp3",
+                "type": "Dialogue",
+                "index": [2]
+            },
+            {
+                "name": "49.mp3",
+                "type": "Narration",
+                "index": [0]
+            },
+            {
+                "name": "50.mp3",
+                "type": "Dialogue",
+                "index": [3]
+            },
+            {
+                "name": "51.mp3",
+                "type": "Dialogue",
+                "index": [4]
+            },
+            {
+                "name": "52.mp3",
+                "type": "Dialogue",
+                "index": [5,6]
+            },
+            {
+                "name": "55.mp3",
+                "type": "Narration",
+                "index": [1]
+            },
+            {
+                "name": "56.mp3",
+                "type": "Dialogue",
+                "index": [7]
+            },
+            {
+                "name": "57.mp3",
+                "type": "Dialogue",
+                "index": [8]
+            },
+            {
+                "name": "58.mp3",
+                "type": "Narration",
+                "index": [2]
+            }
+        ]
+	},
+	
+    "FarmersMarket": {
+        "AudioTracks": [
+            {
+                "name": "61.mp3",
+                "type": "Dialogue",
+                "index": [0]
+            }
+        ]
+	},
+
+	"Apple": {
+        "AudioTracks": [
+            {
+                "name": "60.mp3",
+                "type": "Dialogue",
+                "index": [0]
+            }
+        ]
+	},
+
+	"Banana": {
+        "AudioTracks": [
+            {
+                "name": "59.mp3",
+                "type": "Dialogue",
+                "index": [0]
+            }
+        ]
+	},
+	
+    "GreetingGuy": {
+        "AudioTracks": [
+            {
+                "name": "22.mp3",
+                "type": "Narration",
+                "index": [0]
+            },
+            {
+                "name": "25.mp3",
+                "type": "Dialogue",
+                "index": [0]
+            },
+            {
+                "name": "26.mp3",
+                "type": "Dialogue",
+                "index": [1,6]
+            },
+            {
+                "name": "27.mp3",
+                "type": "Dialogue",
+                "index": [3,8,11]
+            },
+            {
+                "name": "29.mp3",
+                "type": "Dialogue",
+                "index": [2,4]
+            },
+            {
+                "name": "36.mp3",
+                "type": "Narration",
+                "index": [1]
+            },
+            {
+                "name": "38.mp3",
+                "type": "Dialogue",
+                "index": [5]
+            },
+            {
+                "name": "41.mp3",
+                "type": "Dialogue",
+                "index": [0,7,9]
+            },
+            {
+                "name": "42.mp3",
+                "type": "Narration",
+                "index": [2]
+            },
+            {
+                "name": "43.mp3",
+                "type": "Dialogue",
+                "index": [0,10]
+            },
+            {
+                "name": "44.mp3",
+                "type": "Narration",
+                "index": [3]
+            }
+        ]
+    },
+
+    "IntroductionNarrator": {
+        "AudioTracks": [
+            {
+                "name": "02.mp3",
+                "type": "Introduction",
+                "index": [0]
+            },
+            {
+                "name": "05.mp3",
+                "type": "Introduction",
+                "index": [1]
+            },
+            {
+                "name": "09.mp3",
+                "type": "Introduction",
+                "index": [2]
+            },
+            {
+                "name": "11.mp3",
+                "type": "Introduction",
+                "index": [3]
+            },
+            {
+                "name": "12.mp3",
+                "type": "Introduction",
+                "index": [4]
+            },
+            {
+                "name": "16.mp3",
+                "type": "Introduction",
+                "index": [5]
+            },
+            {
+                "name": "17.mp3",
+                "type": "Introduction",
+                "index": [6]
+            },
+            {
+                "name": "19.mp3",
+                "type": "Introduction",
+                "index": [7]
+            },
+            {
+                "name": "20.mp3",
+                "type": "Introduction",
+                "index": [8]
+            },
+            {
+                "name": "21.mp3",
+                "type": "Introduction",
+                "index": [9]
+            }
+        ]
+	},
+	"BackgroundMusic": {
+		"AudioTracks": [
+            {
+                "name": "mystery_for_the_witty_-_ionics.mp3",
+                "type": "BackgroundMusic",
+                "index": [0]
+            }
+		]
+	}
+}

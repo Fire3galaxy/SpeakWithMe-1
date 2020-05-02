@@ -347,7 +347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011058139782, guid: 79b496967591f8244b45eda1d75bd519, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4000011058139782, guid: 79b496967591f8244b45eda1d75bd519, type: 3}
       propertyPath: m_LocalScale.x
@@ -1036,8 +1036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fadbc31038072b746b068b257012d50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clips:
-  - {fileID: 8300000, guid: 0e23c4ed12ebd2d4f9903d42f3ab8db2, type: 3}
+  audioClips: []
 --- !u!114 &201968379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,10 +1059,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 201968373}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fca9e14d42feec4d9c8ce858eea5079, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ba6cd23a7322be4f8712e573f157f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narratorClips: []
+  audioClips: []
 --- !u!1 &219927382
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,8 +1165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f87b95355ccca4696749d6b5370135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clips:
-  - {fileID: 8300000, guid: 596980fc6cc3f5a42a1cefb8b4afcce0, type: 3}
+  audioClips: []
 --- !u!114 &419145046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1177,10 +1175,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 419145040}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fca9e14d42feec4d9c8ce858eea5079, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ba6cd23a7322be4f8712e573f157f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narratorClips: []
+  audioClips: []
 --- !u!114 &419145047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1445,17 +1443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1c5c0f5d8aade44b6e0da0e36d46c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clips:
-  - {fileID: 8300000, guid: 8dd0923d1e0c24e4bb8ed99d01d82b38, type: 3}
-  - {fileID: 8300000, guid: 7deac28dd7cddfd43a65cf97c096a034, type: 3}
-  - {fileID: 8300000, guid: b95c7a472f19e9f49ae2b3b72047f2a7, type: 3}
-  - {fileID: 8300000, guid: d449bcb2bc1b34b45bb6bbd117ff75a4, type: 3}
-  - {fileID: 8300000, guid: 72b1b53cf9858de4d9c67ff60a24242b, type: 3}
-  - {fileID: 8300000, guid: 1f0935a6bacbfab4c915da83fec4e594, type: 3}
-  - {fileID: 8300000, guid: 1f0935a6bacbfab4c915da83fec4e594, type: 3}
-  - {fileID: 8300000, guid: aae90957e44e43c4693c878f87895996, type: 3}
-  - {fileID: 8300000, guid: 2bef9ef50b035264d8d140b8e7179c61, type: 3}
-  - {fileID: 0}
+  audioClips: []
 --- !u!114 &648311883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1465,10 +1453,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 648311877}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fca9e14d42feec4d9c8ce858eea5079, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ba6cd23a7322be4f8712e573f157f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narratorClips:
+  audioClips:
   - {fileID: 8300000, guid: 467d0adc46c290f44abe94a117cb89bf, type: 3}
   - {fileID: 8300000, guid: 1b19ea13eebebe84090ba6715d393488, type: 3}
   - {fileID: 8300000, guid: c85c85db70371fc4ba72c25eb51fd277, type: 3}
@@ -1961,7 +1949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468750, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 468750, guid: 47a3741b253f088469eedd6d403dd89a, type: 3}
       propertyPath: m_LocalScale.x
@@ -2139,7 +2127,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 494844, guid: 2db03e7c8a8135146b280e5da7e0289c, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 494844, guid: 2db03e7c8a8135146b280e5da7e0289c, type: 3}
       propertyPath: m_LocalScale.x
@@ -2209,19 +2197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c36a51a71a95f240897094cd35dd1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clips:
-  - {fileID: 8300000, guid: 7104cfb749542fc42a9521b257617d15, type: 3}
-  - {fileID: 8300000, guid: 22ba98e37601c8d4db5bf0235a387d5e, type: 3}
-  - {fileID: 8300000, guid: ebc36e2e86efaf945a8d099960c7928b, type: 3}
-  - {fileID: 8300000, guid: 870a2379445fc5742ba2a1baf3b2a037, type: 3}
-  - {fileID: 8300000, guid: ebc36e2e86efaf945a8d099960c7928b, type: 3}
-  - {fileID: 8300000, guid: f478f1d7cfd2536459d3229a79dddb51, type: 3}
-  - {fileID: 8300000, guid: 22ba98e37601c8d4db5bf0235a387d5e, type: 3}
-  - {fileID: 8300000, guid: 79cb8e63ed55699438b5183110da41a1, type: 3}
-  - {fileID: 8300000, guid: 870a2379445fc5742ba2a1baf3b2a037, type: 3}
-  - {fileID: 8300000, guid: 79cb8e63ed55699438b5183110da41a1, type: 3}
-  - {fileID: 8300000, guid: 5d532a80fb396354385d0867e79c3dd5, type: 3}
-  - {fileID: 8300000, guid: 870a2379445fc5742ba2a1baf3b2a037, type: 3}
+  audioClips: []
 --- !u!114 &1231023973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2244,10 +2220,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1231023968}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fca9e14d42feec4d9c8ce858eea5079, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ba6cd23a7322be4f8712e573f157f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narratorClips:
+  audioClips:
   - {fileID: 8300000, guid: 67068db7bdd158c4c931fcb0bf68a8ed, type: 3}
   - {fileID: 8300000, guid: 75ea505059e59d1468d95d8792447692, type: 3}
   - {fileID: 8300000, guid: c4cabf7f4d2c2d441a9f3f2fdf8fd985, type: 3}
@@ -2289,7 +2265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011321095692, guid: df48a05baee01154c924c5c7ec74aeee, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4000011321095692, guid: df48a05baee01154c924c5c7ec74aeee, type: 3}
       propertyPath: m_LocalScale.x
@@ -2412,6 +2388,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: b9c9e722ab8e9854e8d3548b19f344b8, type: 3}
+      propertyPath: m_Name
+      value: City of Taiwan
+      objectReference: {fileID: 0}
     - target: {fileID: 400054, guid: b9c9e722ab8e9854e8d3548b19f344b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.5083947
@@ -2442,7 +2422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400054, guid: b9c9e722ab8e9854e8d3548b19f344b8, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400054, guid: b9c9e722ab8e9854e8d3548b19f344b8, type: 3}
       propertyPath: m_LocalScale.x
@@ -2572,7 +2552,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 08a52c81b7406054cb8af1055ef82813, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08a52c81b7406054cb8af1055ef82813, type: 3}
@@ -3190,7 +3170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010048098924, guid: 7dff911492482a2459041d0a1fb156ef, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4000010048098924, guid: 7dff911492482a2459041d0a1fb156ef, type: 3}
       propertyPath: m_LocalScale.x
@@ -3425,10 +3405,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1569599938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fca9e14d42feec4d9c8ce858eea5079, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ba6cd23a7322be4f8712e573f157f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narratorClips: []
+  audioClips: []
 --- !u!114 &1569599945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3454,8 +3434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdae34ed4a1bd7f4c8cac31274f2593f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clips:
-  - {fileID: 8300000, guid: e0cf06bb9be2f3f43bf8f66bf8d0647e, type: 3}
+  audioClips: []
 --- !u!1 &1576335922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 152384, guid: 6fb37f825ee63264b9c2600bf1a52006,
@@ -3491,10 +3470,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1576335922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fca9e14d42feec4d9c8ce858eea5079, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ba6cd23a7322be4f8712e573f157f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narratorClips:
+  audioClips:
   - {fileID: 8300000, guid: 20fb4e81f28be7c42913316ccefbbca7, type: 3}
 --- !u!114 &1576335927
 MonoBehaviour:
@@ -3508,10 +3487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c557f32dec4094449a1372950b90ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clips:
-  - {fileID: 8300000, guid: 50b10a01bb5cc0944823aa7e0d96b52b, type: 3}
-  - {fileID: 8300000, guid: 04606052f68e6fc46aaae09e42b8218d, type: 3}
-  - {fileID: 8300000, guid: 46b58ebf6c0aa9d46ad91d339a7029fa, type: 3}
+  audioClips: []
 --- !u!114 &1576335928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4035,7 +4011,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 440584, guid: 6fb37f825ee63264b9c2600bf1a52006, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 440584, guid: 6fb37f825ee63264b9c2600bf1a52006, type: 3}
       propertyPath: m_LocalScale.x
@@ -4185,7 +4161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400078, guid: 461413943bab6ef40aa2a33f18380180, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 400078, guid: 461413943bab6ef40aa2a33f18380180, type: 3}
       propertyPath: m_LocalScale.x
@@ -4476,7 +4452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4154779130590934, guid: 00284cf2de272b74d864cac5ee59c480, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4154779130590934, guid: 00284cf2de272b74d864cac5ee59c480, type: 3}
       propertyPath: m_LocalScale.x
@@ -4529,7 +4505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4294103354225120, guid: f867a58d1f64f4efcad5048b52fead5f, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4294103354225120, guid: f867a58d1f64f4efcad5048b52fead5f, type: 3}
       propertyPath: m_LocalScale.x
@@ -4586,7 +4562,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011667685464, guid: 8fa35cdad352cfa4297d3be64705ecf1, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4000011667685464, guid: 8fa35cdad352cfa4297d3be64705ecf1, type: 3}
       propertyPath: m_LocalScale.x

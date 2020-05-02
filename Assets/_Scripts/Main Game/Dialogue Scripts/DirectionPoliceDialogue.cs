@@ -15,8 +15,7 @@ class DirectionPoliceDialogue : Dialogue
                             "Turn left 左轉 (Tso Chuan)",
                             "Thank you! 謝謝 (Hsieh Hsieh)",
                             "Goodbye! 再見 (Tsai Chien)",
-                            "Now proceed to the market (walk to the market or click your heels three " + 
-                                "times to teleport!)"
+                            "Now proceed to the market"
                         };
 
     protected override string[] scripts
