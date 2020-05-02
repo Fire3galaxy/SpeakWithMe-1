@@ -26,7 +26,7 @@
       "requirement": "suggested"
     },
     {
-      "name": "/actions/DemoControls/in/Move",
+      "name": "/actions/DemoControls/in/MoveJoystick",
       "type": "vector2",
       "requirement": "suggested"
     },

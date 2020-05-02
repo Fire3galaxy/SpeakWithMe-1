@@ -70,7 +70,7 @@ public class IntroductionNarrator : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () 
+	void Update() 
     {
         // If audio is playing or paused, we don't advance in the script.
         if (narratorAudioSourceWrapper.currentState != AudioState.NotPlaying || 

@@ -20,6 +20,7 @@ class PlayerMoveControls : PlayPauseBehaviour, PlayerLoader.HeadsetChangeListene
 
     float joystickThreshold = .2f;
     float mouseThreshold = 5f;
+    float currentXEulerAngle = 0f;  // used only for non-VR vertical rotation
     SteamVR_Action_Boolean steamForwardAction;
     SteamVR_Action_Boolean steamBackwardAction;
     SteamVR_Action_Boolean steamRotateLeftAction;
@@ -44,7 +45,7 @@ class PlayerMoveControls : PlayPauseBehaviour, PlayerLoader.HeadsetChangeListene
         steamBackwardAction = SteamVR_Actions.demoControls_MoveBackward;
         steamRotateLeftAction = SteamVR_Actions.demoControls_RotateLeft;
         steamRotateRightAction = SteamVR_Actions.demoControls_RotateRight;
-        steamMoveJoystick = SteamVR_Actions.demoControls_Move;
+        steamMoveJoystick = SteamVR_Actions.demoControls_MoveJoystick;
 	}
 
     protected override void UpdatePlay()
@@ -62,9 +63,13 @@ class PlayerMoveControls : PlayPauseBehaviour, PlayerLoader.HeadsetChangeListene
         if (movingForward() && !movingForwardJoystick()) moveForward();
         if (movingBackward() && !movingBackwardsJoystick()) moveBackward();
 
-        // Rotating Camera (Mouse, D-pad, or Keyboard)
+        // Non-VR actions and Rotating Camera (Mouse, D-pad, or Keyboard)
         if (hmdType == HeadsetType.NoVR)
         {
+            // Keyboard only - Strafe left/right with arrow keys
+            if (movingLeftNoVRWithButtons()) moveLeft();
+            if (movingRightNoVRWithButtons()) moveRight();
+            
             // Calculate the delta before calling rotating(Up/Down/Left/Right)
             // because those functions don't calculate delta (to avoid repeat calculations)
             updateMouseDelta();
@@ -107,7 +112,17 @@ class PlayerMoveControls : PlayPauseBehaviour, PlayerLoader.HeadsetChangeListene
 
     void moveBackward()
     {
-        transform.position += -transform.forward * movementSpeed * Time.deltaTime;
+        transform.position -= transform.forward * movementSpeed * Time.deltaTime;
+    }
+
+    void moveLeft()
+    {
+        transform.position -= transform.right * movementSpeed * Time.deltaTime;
+    }
+
+    void moveRight()
+    {
+        transform.position += transform.right * movementSpeed * Time.deltaTime;
     }
 
     void rotateHorizontal(float rotationAmount)
@@ -117,18 +132,18 @@ class PlayerMoveControls : PlayPauseBehaviour, PlayerLoader.HeadsetChangeListene
 
     void rotateVerticalNoVR(float rotationAmount)
     {
-        // localEulerAngles uses [0,360f) instead of negatives, which I need for the formula below.
-        float adjustedLocalXRotation = hmdTransform.localEulerAngles.x;
-        if (adjustedLocalXRotation > 90f) adjustedLocalXRotation = adjustedLocalXRotation - 360f;
-
         // Clamp to 90 degrees above and below player (no upside down)
+        // There are edge cases where transform.eulerAngles.x is represented in such a
+        // way that it obeys this clamp but still puts the user upside down. Avoiding this
+        // by tracking x euler angle ourselves.
         float clampedRotationAmount = Mathf.Clamp(rotationAmount,
-                                                  -90f - adjustedLocalXRotation,
-                                                  90f - adjustedLocalXRotation);
+                                                  -90f - currentXEulerAngle,
+                                                  90f - currentXEulerAngle);
 
         // Rotates the camera rather than the Player object. Don't do this with VR.
         // Benefit is that transform.forward stays aligned on the XZ plane
         hmdTransform.Rotate(clampedRotationAmount, 0f, 0f, Space.Self);
+        currentXEulerAngle += clampedRotationAmount;
     }
 
     void moveWithJoystick(Vector2 axis)
@@ -178,6 +193,16 @@ class PlayerMoveControls : PlayPauseBehaviour, PlayerLoader.HeadsetChangeListene
                Input.GetKey(KeyCode.DownArrow) ||
                steamBackwardAction.state ||
                movingBackwardsJoystick();
+    }
+
+    bool movingLeftNoVRWithButtons()
+    {
+        return Input.GetKey(KeyCode.LeftArrow);
+    }
+
+    bool movingRightNoVRWithButtons()
+    {
+        return Input.GetKey(KeyCode.RightArrow);
     }
 
     bool movingForwardJoystick()

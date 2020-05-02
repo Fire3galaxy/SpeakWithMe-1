@@ -1,139 +1,122 @@
 {
-   "action_manifest_version" : 0,
-   "alias_info" : {},
-   "app_key" : "application.generated.unity.speakwithme.exe",
-   "bindings" : {
-      "/actions/democontrols" : {
-         "chords" : [],
-         "haptics" : [],
-         "poses" : [
-            {
-               "output" : "/actions/democontrols/in/trackingpoint",
-               "path" : "/user/hand/left/pose/raw"
+  "app_key": "application.generated.unity.speakwithme.exe",
+  "bindings": {
+    "/actions/democontrols": {
+      "chords": [],
+      "poses": [
+        {
+          "output": "/actions/democontrols/in/trackingpoint",
+          "path": "/user/hand/left/pose/raw"
+        },
+        {
+          "output": "/actions/democontrols/in/trackingpoint",
+          "path": "/user/hand/right/pose/raw"
+        }
+      ],
+      "haptics": [],
+      "sources": [
+        {
+          "path": "/user/hand/left/input/trackpad",
+          "mode": "dpad",
+          "parameters": {
+            "sub_mode": "click"
+          },
+          "inputs": {
+            "east": {
+              "output": "/actions/democontrols/in/rotateright"
             },
-            {
-               "output" : "/actions/democontrols/in/trackingpoint",
-               "path" : "/user/hand/right/pose/raw"
+            "west": {
+              "output": "/actions/democontrols/in/rotateleft"
             }
-         ],
-         "skeleton" : [],
-         "sources" : [
-            {
-               "inputs" : {
-                  "position" : {
-                     "output" : "/actions/democontrols/in/move"
-                  }
-               },
-               "mode" : "joystick",
-               "path" : "/user/hand/left/input/joystick"
+          }
+        },
+        {
+          "path": "/user/hand/right/input/trackpad",
+          "mode": "dpad",
+          "parameters": {
+            "sub_mode": "click"
+          },
+          "inputs": {
+            "east": {
+              "output": "/actions/democontrols/in/rotateright"
             },
-            {
-               "inputs" : {
-                  "position" : {
-                     "output" : "/actions/democontrols/in/move"
-                  }
-               },
-               "mode" : "joystick",
-               "path" : "/user/hand/right/input/joystick"
-            },
-            {
-               "inputs" : {
-                  "east" : {
-                     "output" : "/actions/democontrols/in/rotateright"
-                  },
-                  "west" : {
-                     "output" : "/actions/democontrols/in/rotateleft"
-                  }
-               },
-               "mode" : "dpad",
-               "parameters" : {
-                  "sub_mode" : "click"
-               },
-               "path" : "/user/hand/left/input/trackpad"
-            },
-            {
-               "inputs" : {
-                  "east" : {
-                     "output" : "/actions/democontrols/in/rotateright"
-                  },
-                  "west" : {
-                     "output" : "/actions/democontrols/in/rotateleft"
-                  }
-               },
-               "mode" : "dpad",
-               "parameters" : {
-                  "sub_mode" : "click"
-               },
-               "path" : "/user/hand/right/input/trackpad"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/democontrols/in/record"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/left/input/application_menu"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/democontrols/in/record"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/right/input/application_menu"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/democontrols/in/playrecording"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/left/input/trigger"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/democontrols/in/playrecording"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/right/input/trigger"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/democontrols/in/nextdialogue"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/left/input/grip"
-            },
-            {
-               "inputs" : {
-                  "click" : {
-                     "output" : "/actions/democontrols/in/nextdialogue"
-                  }
-               },
-               "mode" : "button",
-               "path" : "/user/hand/right/input/grip"
+            "west": {
+              "output": "/actions/democontrols/in/rotateleft"
             }
-         ]
-      },
-      "/actions/legacy" : {
-         "chords" : [],
-         "haptics" : [],
-         "poses" : [],
-         "skeleton" : [],
-         "sources" : []
-      }
-   },
-   "category" : "steamvr_input",
-   "controller_type" : "holographic_controller",
-   "description" : "Microsoft recommended legacy bindings",
-   "name" : "Saved SpeakWithMe [Testing] configuration for Windows Mixed Reality Controller",
-   "options" : {},
-   "simulated_actions" : []
+          }
+        },
+        {
+          "path": "/user/hand/left/input/application_menu",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/democontrols/in/record"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/application_menu",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/democontrols/in/record"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/trigger",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/democontrols/in/playrecording"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/trigger",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/democontrols/in/playrecording"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/left/input/grip",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/democontrols/in/nextdialogue"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/grip",
+          "mode": "button",
+          "parameters": {},
+          "inputs": {
+            "click": {
+              "output": "/actions/democontrols/in/nextdialogue"
+            }
+          }
+        }
+      ],
+      "skeleton": []
+    },
+    "/actions/legacy": {
+      "chords": [],
+      "poses": [],
+      "haptics": [],
+      "sources": [],
+      "skeleton": []
+    }
+  },
+  "controller_type": "holographic_controller",
+  "description": "Microsoft recommended legacy bindings",
+  "name": "Saved SpeakWithMe [Testing] configuration for Windows Mixed Reality Controller"
 }

@@ -27,7 +27,7 @@ namespace Valve.VR
         
         private static SteamVR_Action_Boolean p_demoControls_RotateRight;
         
-        private static SteamVR_Action_Vector2 p_demoControls_Move;
+        private static SteamVR_Action_Vector2 p_demoControls_MoveJoystick;
         
         private static SteamVR_Action_Boolean p_demoControls_Record;
         
@@ -75,11 +75,11 @@ namespace Valve.VR
             }
         }
         
-        public static SteamVR_Action_Vector2 demoControls_Move
+        public static SteamVR_Action_Vector2 demoControls_MoveJoystick
         {
             get
             {
-                return SteamVR_Actions.p_demoControls_Move.GetCopy<SteamVR_Action_Vector2>();
+                return SteamVR_Actions.p_demoControls_MoveJoystick.GetCopy<SteamVR_Action_Vector2>();
             }
         }
         
@@ -115,7 +115,7 @@ namespace Valve.VR
                     SteamVR_Actions.demoControls_MoveBackward,
                     SteamVR_Actions.demoControls_RotateLeft,
                     SteamVR_Actions.demoControls_RotateRight,
-                    SteamVR_Actions.demoControls_Move,
+                    SteamVR_Actions.demoControls_MoveJoystick,
                     SteamVR_Actions.demoControls_Record,
                     SteamVR_Actions.demoControls_PlayRecording,
                     SteamVR_Actions.demoControls_NextDialogue};
@@ -125,7 +125,7 @@ namespace Valve.VR
                     SteamVR_Actions.demoControls_MoveBackward,
                     SteamVR_Actions.demoControls_RotateLeft,
                     SteamVR_Actions.demoControls_RotateRight,
-                    SteamVR_Actions.demoControls_Move,
+                    SteamVR_Actions.demoControls_MoveJoystick,
                     SteamVR_Actions.demoControls_Record,
                     SteamVR_Actions.demoControls_PlayRecording,
                     SteamVR_Actions.demoControls_NextDialogue};
@@ -143,7 +143,7 @@ namespace Valve.VR
                     SteamVR_Actions.demoControls_NextDialogue};
             Valve.VR.SteamVR_Input.actionsSingle = new Valve.VR.SteamVR_Action_Single[0];
             Valve.VR.SteamVR_Input.actionsVector2 = new Valve.VR.SteamVR_Action_Vector2[] {
-                    SteamVR_Actions.demoControls_Move};
+                    SteamVR_Actions.demoControls_MoveJoystick};
             Valve.VR.SteamVR_Input.actionsVector3 = new Valve.VR.SteamVR_Action_Vector3[0];
             Valve.VR.SteamVR_Input.actionsSkeleton = new Valve.VR.SteamVR_Action_Skeleton[0];
             Valve.VR.SteamVR_Input.actionsNonPoseNonSkeletonIn = new Valve.VR.ISteamVR_Action_In[] {
@@ -151,7 +151,7 @@ namespace Valve.VR
                     SteamVR_Actions.demoControls_MoveBackward,
                     SteamVR_Actions.demoControls_RotateLeft,
                     SteamVR_Actions.demoControls_RotateRight,
-                    SteamVR_Actions.demoControls_Move,
+                    SteamVR_Actions.demoControls_MoveJoystick,
                     SteamVR_Actions.demoControls_Record,
                     SteamVR_Actions.demoControls_PlayRecording,
                     SteamVR_Actions.demoControls_NextDialogue};
@@ -164,7 +164,7 @@ namespace Valve.VR
             SteamVR_Actions.p_demoControls_MoveBackward = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/DemoControls/in/MoveBackward")));
             SteamVR_Actions.p_demoControls_RotateLeft = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/DemoControls/in/RotateLeft")));
             SteamVR_Actions.p_demoControls_RotateRight = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/DemoControls/in/RotateRight")));
-            SteamVR_Actions.p_demoControls_Move = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/DemoControls/in/Move")));
+            SteamVR_Actions.p_demoControls_MoveJoystick = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/DemoControls/in/MoveJoystick")));
             SteamVR_Actions.p_demoControls_Record = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/DemoControls/in/Record")));
             SteamVR_Actions.p_demoControls_PlayRecording = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/DemoControls/in/PlayRecording")));
             SteamVR_Actions.p_demoControls_NextDialogue = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/DemoControls/in/NextDialogue")));

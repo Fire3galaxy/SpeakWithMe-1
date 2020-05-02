@@ -57,11 +57,11 @@ namespace Valve.VR
             }
         }
         
-        public virtual SteamVR_Action_Vector2 Move
+        public virtual SteamVR_Action_Vector2 MoveJoystick
         {
             get
             {
-                return SteamVR_Actions.demoControls_Move;
+                return SteamVR_Actions.demoControls_MoveJoystick;
             }
         }
         
