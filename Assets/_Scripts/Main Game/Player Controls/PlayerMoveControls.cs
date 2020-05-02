@@ -3,7 +3,7 @@ using Valve.VR;
 
 using HeadsetType = PlayerLoader.HeadsetType;
 
-public class PlayerMoveControls : MonoBehaviour, PlayerLoader.HeadsetChangeListener {
+class PlayerMoveControls : PlayPauseBehaviour, PlayerLoader.HeadsetChangeListener {
     [Tooltip("For VR and non-VR")]
     public float movementSpeed = .02f;
     [Tooltip("For VR, Degrees per button press")]
@@ -47,7 +47,8 @@ public class PlayerMoveControls : MonoBehaviour, PlayerLoader.HeadsetChangeListe
         steamMoveJoystick = SteamVR_Actions.demoControls_Move;
 	}
 
-	void Update () {
+    protected override void UpdatePlay()
+    {
         // Camera can be reloaded due to settings change. Avoid action during these rare frames.
         if (hmdTransform == null || hmdType == HeadsetType.ValueNotSet) return;
 
@@ -92,6 +93,11 @@ public class PlayerMoveControls : MonoBehaviour, PlayerLoader.HeadsetChangeListe
                               (rotatingLeftVR() ? -rotationAmountPerPressVR : 0);
             rotateHorizontal(yRotation);
         }
+    }
+
+    protected override void UpdatePause()
+    {
+        // Do nothing
     }
 
     void moveForward()

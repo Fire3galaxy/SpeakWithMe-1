@@ -1490,6 +1490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f1fe6a2ecbbb4c4eb8ce1a738506abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseAudioDuringGamePause: 1
 --- !u!1001 &693098088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1553,6 +1554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f1fe6a2ecbbb4c4eb8ce1a738506abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseAudioDuringGamePause: 0
 --- !u!1 &886917978
 GameObject:
   m_ObjectHideFlags: 0
@@ -4436,6 +4438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f1fe6a2ecbbb4c4eb8ce1a738506abf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseAudioDuringGamePause: 1
 --- !u!1001 &2068400184
 PrefabInstance:
   m_ObjectHideFlags: 0

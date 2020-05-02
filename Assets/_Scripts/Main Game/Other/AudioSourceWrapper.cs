@@ -2,6 +2,7 @@ using UnityEngine;
 
 class AudioSourceWrapper : PlayPauseBehaviour
 {
+    public bool pauseAudioDuringGamePause = true;
     AudioSource audioSource;
     
     public AudioState currentState {get; private set;}
@@ -48,7 +49,7 @@ class AudioSourceWrapper : PlayPauseBehaviour
 
     protected override void UpdatePlay()
     {
-        if (currentState == AudioState.Paused)
+        if (pauseAudioDuringGamePause && currentState == AudioState.Paused)
         {
             currentState = AudioState.Playing;
             audioSource.UnPause();
@@ -65,7 +66,7 @@ class AudioSourceWrapper : PlayPauseBehaviour
 
     protected override void UpdatePause()
     {
-        if (currentState != AudioState.Paused)
+        if (pauseAudioDuringGamePause && currentState != AudioState.Paused)
         {
             currentState = AudioState.Paused;
             audioSource.Pause();
