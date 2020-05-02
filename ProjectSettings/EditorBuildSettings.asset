@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/ChineseCityDemo.unity
     guid: 733715b5b7ed0e242b2e89d1f7d20054
+  - enabled: 1
+    path: Assets/_Scenes/Menu.unity
+    guid: cce59941118b7974787b64e8ac3aa9fb
   m_configObjects: {}

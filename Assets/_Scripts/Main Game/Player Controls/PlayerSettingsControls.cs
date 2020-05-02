@@ -4,6 +4,13 @@ class PlayerSettingsControls : MonoBehaviour
 {
     public static bool paused = false;
 
+    GameObject settingsCanvas;
+
+    void Start()
+    {
+        settingsCanvas = transform.Find("Settings Canvas").gameObject;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -14,6 +21,7 @@ class PlayerSettingsControls : MonoBehaviour
 
             // Testing pausing over entire game
             paused = !paused;
+            settingsCanvas.SetActive(paused);
         }
     }
 }

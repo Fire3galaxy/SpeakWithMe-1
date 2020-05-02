@@ -12,7 +12,9 @@ class NarratorVolumeSettings : VolumeSettings
 
     override protected void Start()
     {
-        narratorAudioSource = transform.Find("/Narrator Audio").GetComponent<AudioSource>();
+        // Assumed to be attached to Settings Menu/Settings Narrator Volume/Slider
+        narratorAudioSource = transform.parent.parent.Find("Narrator Audio")
+                                .GetComponent<AudioSource>();
         base.Start(); // changes value of dropdown, triggering onValueChanged().
         isAfterStart = true;
     }
