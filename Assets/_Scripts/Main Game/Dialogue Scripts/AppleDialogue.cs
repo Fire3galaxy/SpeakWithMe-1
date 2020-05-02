@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-public class AppleDialogue : Dialogue {
+class AppleDialogue : Dialogue {
     string[] _scripts = new string[] {
                             "Apple - 蘋果 \"Píngguǒ\"",
                             "Try saying 蘋果 \"Píngguǒ\"",

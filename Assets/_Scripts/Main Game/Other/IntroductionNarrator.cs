@@ -115,7 +115,7 @@ public class IntroductionNarrator : MonoBehaviour {
             // Stopping recording
             case 7:
                 handleClipsUpdate(playerMic.recordButtonPressed() || !playerMic.isRecording(), 
-                                advanceClip);
+                                  advanceClip);
                 break;
             // Playing back recording, sending player off
             case 9:

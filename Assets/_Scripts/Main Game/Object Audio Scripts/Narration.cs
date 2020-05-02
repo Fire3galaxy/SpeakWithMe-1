@@ -2,40 +2,41 @@
 
 using AudioState = AudioSourceWrapper.AudioState;
 
-class Narrator : MonoBehaviour {
-    public AudioClip[] narratorClips;
+// Plays voice clip from us language developers/teachers
+class Narration : MonoBehaviour {
+    public AudioClip[] audioClips;
 
-    int clipNum = 0;
-    OnNarratorCompleteListener scriptLogic;
+    protected int scriptLine = 0;
+    OnNarrationCompleteListener scriptLogic;
     AudioSourceWrapper narratorAudioSourceWrapper;
     bool isPlaying = false;
 
-	void Start () {
+	virtual protected void Start () {
         narratorAudioSourceWrapper = GameObject.Find(PlayerLoader.playerPath() + "/Narrator Audio")
                                         .GetComponent<AudioSourceWrapper>();
 	}
 
-    void Update()
+    virtual protected void Update()
     {
         // A clip starts playing when StartNarrator() is called. This code waits for
         // the clip to ends, then notifies the callee we're done.
 		if (isPlaying && narratorAudioSourceWrapper.currentState == AudioState.NotPlaying)
         {
             isPlaying = false;
-            clipNum++;
-            scriptLogic.onNarratorClipCompleted();
+            scriptLine++;
+            scriptLogic.onNarrationComplete();
         }
     }
 
-    public void StartNarrator(OnNarratorCompleteListener caller)
+    virtual public void StartNarration(OnNarrationCompleteListener caller)
     {
         scriptLogic = caller;
-        narratorAudioSourceWrapper.Play(narratorClips[clipNum]);
+        narratorAudioSourceWrapper.Play(audioClips[scriptLine]);
         isPlaying = true;
     }
 
-    public interface OnNarratorCompleteListener
+    public interface OnNarrationCompleteListener
     {
-        void onNarratorClipCompleted();
+        void onNarrationComplete();
     }
 }

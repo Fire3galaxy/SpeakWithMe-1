@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-public class GreetingGuyDialogue : Dialogue {
+class GreetingGuyDialogue : Dialogue {
     string[] _scripts = new string[] {
                              "Hello 你好 (Ni Hao)",
                             "Hello 你好 (Ni Hao)",

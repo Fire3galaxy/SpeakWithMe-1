@@ -5,14 +5,13 @@ using Speaker = ScriptHolder.Speaker;
 /* ObjectFocus.cs
  * The central logic script for initiating conversation with an NPC. Runs the dialogue scripts.
  */
-public class ObjectFocus : MonoBehaviour, Narrator.OnNarratorCompleteListener, 
-                           Dialogue.OnDialogueCompleteListener 
+public class ObjectFocus : MonoBehaviour, Narration.OnNarrationCompleteListener
 {
     int scriptLine = 0;
 
     Dialogue dialogue;
     ScriptHolder scriptHolder;
-    Narrator narrator;
+    Narration narrator;
     PlayerMicControls playerMicControls;
     PlayerDialogueControls playerDialogueControls;
     AudioSource recordingsAudio;
@@ -22,7 +21,7 @@ public class ObjectFocus : MonoBehaviour, Narrator.OnNarratorCompleteListener,
     {
         dialogue = GetComponent<Dialogue>();
         scriptHolder = GetComponent<ScriptHolder>();
-        narrator = GetComponent<Narrator>();
+        narrator = GetComponent<Narration>();
 
         GameObject player = GameObject.Find(PlayerLoader.playerPath());
         playerMicControls = player.GetComponent<PlayerMicControls>();
@@ -38,11 +37,11 @@ public class ObjectFocus : MonoBehaviour, Narrator.OnNarratorCompleteListener,
         {
             if (scriptHolder.script[scriptLine] == Speaker.Narrator)
             {
-                narrator.StartNarrator(this);
+                narrator.StartNarration(this);
             }
             else if (scriptHolder.script[scriptLine] == Speaker.Dialogue)
             {
-                dialogue.StartDialogue(this);
+                dialogue.StartNarration(this);
             }
         }
     }
@@ -62,10 +61,10 @@ public class ObjectFocus : MonoBehaviour, Narrator.OnNarratorCompleteListener,
         switch (scriptHolder.script[scriptLine])
         {
             case Speaker.Narrator:
-                narrator.StartNarrator(this);
+                narrator.StartNarration(this);
                 break;
             case Speaker.Dialogue:
-                dialogue.StartDialogue(this);
+                dialogue.StartNarration(this);
                 break;
             case Speaker.Player:
                 if (playerMicControls.isRecording()) playerMicControls.StopRecording();
@@ -112,12 +111,7 @@ public class ObjectFocus : MonoBehaviour, Narrator.OnNarratorCompleteListener,
         }
     }
 
-    public void onNarratorClipCompleted()
-    {
-        nextScriptLine();
-    }
-
-    public void onDialogueClipCompleted()
+    public void onNarrationComplete()
     {
         nextScriptLine();
     }

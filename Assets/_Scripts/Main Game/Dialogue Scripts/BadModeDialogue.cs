@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BadModeDialogue : Dialogue
+class BadModeDialogue : Dialogue
 {
     string[] _scripts = new string[] {
                             "I’m screwed 悲劇 (Pei Chu)",

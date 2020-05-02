@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DirectionPoliceDialogue : Dialogue
+class DirectionPoliceDialogue : Dialogue
 {
     string[] _scripts = new string[] {
                             "Police Officer 警察 (Jing Cha)",

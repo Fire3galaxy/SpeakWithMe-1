@@ -1,53 +1,28 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
-using AudioState = AudioSourceWrapper.AudioState;
-
-// Parent of all specific text classes
-public abstract class Dialogue : MonoBehaviour {
-    public AudioClip[] clips;
-    
-    int scriptLine = 0;
-    AudioSourceWrapper narratorAudioSourceWrapper;
+// Plays voice clip from narrator AND adds text display for player to read
+abstract class Dialogue : Narration {
     Text textContainer;
-    OnDialogueCompleteListener caller;
-    bool isPlaying = false;
 
-    // Must be set by children
+    // Must be set by children. String array and AudioClip array are expected
+    // to be same size and matched one-to-one, so you may need duplicate string
+    // script lines.
     protected abstract string[] scripts { get; }
 
-    void Start()
+    override protected void Start()
     {
-        narratorAudioSourceWrapper = GameObject.Find(PlayerLoader.playerPath() + "/Narrator Audio")
-                            .GetComponent<AudioSourceWrapper>();
+        base.Start();
         textContainer = GetComponentInChildren<Text>();
     }
 
-    void Update()
-    {
-        if (isPlaying && narratorAudioSourceWrapper.currentState == AudioState.NotPlaying)
-        {
-            scriptLine++;
-            isPlaying = false;
-            caller.onDialogueClipCompleted();
-        }
-    }
-
-    public void StartDialogue(OnDialogueCompleteListener caller) {
+    override public void StartNarration(OnNarrationCompleteListener caller) {
         textContainer.text = scripts[scriptLine];
         textContainer.gameObject.SetActive(true);
 
-        isPlaying = true;
-        narratorAudioSourceWrapper.Play(clips[scriptLine]);
-        this.caller = caller;
+        base.StartNarration(caller);
     }
 
     public void HideDialogue() {
         textContainer.gameObject.SetActive(false);
-    }
-
-    public interface OnDialogueCompleteListener
-    {
-        void onDialogueClipCompleted();
     }
 }
